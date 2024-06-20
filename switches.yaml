@@ -1,0 +1,244 @@
+switch:
+  ###### RELAYS #########
+  - platform: gpio
+    name: "Relay_1"
+    pin: 13
+    id: relay_1
+    internal: $hide_outputs
+    restore_mode: RESTORE_DEFAULT_OFF
+    on_turn_on:
+    - delay: 200ms
+    - switch.turn_off: relay_1
+  - platform: gpio
+    name: "Relay_2"
+    pin: 12
+    id: relay_2
+    internal: $hide_outputs
+    restore_mode: RESTORE_DEFAULT_OFF
+    on_turn_on:
+    - delay: 200ms
+    - switch.turn_off: relay_2
+  - platform: gpio
+    name: "Relay_3"
+    pin: 4
+    id: relay_3
+    internal: $hide_outputs
+    restore_mode: RESTORE_DEFAULT_OFF
+    on_turn_on:
+    - delay: 200ms
+    - switch.turn_off: relay_3
+  - platform: gpio
+    name: "Relay_4"
+    pin: 27
+    id: relay_4
+    internal: $hide_outputs
+    restore_mode: RESTORE_DEFAULT_OFF
+    on_turn_on:
+    - delay: 200ms
+    - switch.turn_off: relay_4
+  - platform: gpio
+    name: "Relay_5"
+    id: relay_5
+    internal: $hide_outputs
+    restore_mode: RESTORE_DEFAULT_OFF
+    pin: 26
+    on_turn_on:
+    - delay: 200ms
+    - switch.turn_off: relay_5
+  - platform: gpio
+    name: "Relay_6"
+    pin: 25
+    internal: $hide_outputs
+    restore_mode: RESTORE_DEFAULT_OFF
+    id: relay_6
+    on_turn_on:
+    - delay: 200ms
+    - switch.turn_off: relay_6
+  - platform: gpio
+    name: "Relay_7"
+    pin: 33
+    id: relay_7
+    internal: $hide_outputs
+    restore_mode: RESTORE_DEFAULT_OFF
+    on_turn_on:
+    - delay: 200ms
+    - switch.turn_off: relay_7
+  - platform: gpio
+    name: "Relay_8"
+    pin: 32
+    id: relay_8
+    internal: $hide_outputs
+    restore_mode: RESTORE_DEFAULT_OFF
+    on_turn_on:
+    - delay: 200ms
+    - switch.turn_off: relay_8
+  ###### Virtual switches ########
+  - platform: template
+    name: "light_1"
+    lambda: |-
+      if (id(input_1).state) {
+        return true;
+      } else {
+        return false;
+      }
+    restore_mode: DISABLED
+    turn_on_action:
+      - switch.turn_on: relay_1
+    turn_off_action:
+      - switch.turn_on: relay_1
+  - platform: template
+    name: "light_2"
+    lambda: |-
+      if (id(input_2).state) {
+        return true;
+      } else {
+        return false;
+      }
+    restore_mode: DISABLED
+    turn_on_action:
+      - switch.turn_on: relay_2
+    turn_off_action:
+      - switch.turn_on: relay_2
+  - platform: template
+    name: "light_3"
+    lambda: |-
+      if (id(input_3).state) {
+        return true;
+      } else {
+        return false;
+      }
+    restore_mode: DISABLED
+    turn_on_action:
+      - switch.turn_on: relay_3
+    turn_off_action:
+      - switch.turn_on: relay_3
+  - platform: template
+    name: "light_4"
+    lambda: |-
+      if (id(input_4).state) {
+        return true;
+      } else {
+        return false;
+      }
+    restore_mode: DISABLED
+    turn_on_action:
+      - switch.turn_on: relay_4
+    turn_off_action:
+      - switch.turn_on: relay_4
+  - platform: template
+    name: "light_5"
+    lambda: |-
+      if (id(input_5).state) {
+        return true;
+      } else {
+        return false;
+      }
+    restore_mode: DISABLED
+    turn_on_action:
+      - switch.turn_on: relay_5
+    turn_off_action:
+      - switch.turn_on: relay_5
+  - platform: template
+    name: "light_6"
+    lambda: |-
+      if (id(input_6).state) {
+        return true;
+      } else {
+        return false;
+      }
+    restore_mode: DISABLED
+    turn_on_action:
+      - switch.turn_on: relay_6
+    turn_off_action:
+      - switch.turn_on: relay_6
+  - platform: template
+    name: "light_7"
+    lambda: |-
+      if (id(input_7).state) {
+        return true;
+      } else {
+        return false;
+      }
+    restore_mode: DISABLED
+    turn_on_action:
+      - switch.turn_on: relay_7
+    turn_off_action:
+      - switch.turn_on: relay_7
+  - platform: template
+    name: "light_8"
+    lambda: |-
+      if (id(input_8).state) {
+        return true;
+      } else {
+        return false;
+      }
+    restore_mode: DISABLED
+    turn_on_action:
+      - switch.turn_on: relay_8
+    turn_off_action:
+      - switch.turn_on: relay_8
+binary_sensor:
+  - platform: gpio
+    pin: 14
+    id: input_1
+    name: "Input_1"
+    internal: $hide_inputs
+    device_class: power
+    filters:
+      - delayed_on: 500ms
+  - platform: gpio
+    pin: 16
+    id: input_2
+    name: "Input_2"
+    internal: $hide_inputs
+    device_class: power
+    filters:
+      - delayed_on: 500ms
+  - platform: gpio
+    pin: 17
+    id: input_3
+    name: "Input_3"
+    internal: $hide_inputs
+    device_class: power
+    filters:
+      - delayed_on: 500ms
+  - platform: gpio
+    pin: 18
+    name: "Input_4"
+    id: input_4
+    internal: $hide_inputs
+    device_class: power
+    filters:
+      - delayed_on: 500ms
+  - platform: gpio
+    pin: 19
+    name: "Input_5"
+    id: input_5
+    internal: $hide_inputs
+    device_class: power
+    filters:
+      - delayed_on: 500ms
+  - platform: gpio
+    pin: 21
+    name: "Input_6"
+    id: input_6
+    internal: $hide_inputs
+    device_class: power
+    filters:
+      - delayed_on: 500ms
+  - platform: gpio
+    pin: 22
+    name: "Input_7"
+    id: input_7
+    internal: $hide_inputs
+    device_class: power
+    filters:
+      - delayed_on: 500ms
+  - platform: gpio
+    pin: 23
+    id: input_8
+    internal: $hide_inputs
+    name: "Input_8"
+    device_class: power
+    filters:
+      - delayed_on: 500ms
