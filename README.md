@@ -11,7 +11,7 @@ House comes with epn518, but you want to have smart lights.
 To control the lights we need solution that can do following:
   - Detect 24 VAC voltage from epn518 pin 3 (NC pin to light up LED on low voltage switches)
     - This is to detect the current state of the relay
-  - Send 24 VAC pulse to pin 1
+  - Send 24 VAC pulse to pin A1
     - This is to trigger change it the relay state
 
 # Solution
