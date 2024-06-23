@@ -75,6 +75,7 @@ switch:
   ###### Virtual switches ########
   - platform: template
     name: "light_1"
+    id: light_1
     lambda: |-
       if (id(input_1).state) {
         return true;
@@ -83,11 +84,22 @@ switch:
       }
     restore_mode: DISABLED
     turn_on_action:
-      - switch.turn_on: relay_1
+      if:
+        condition:
+          - lambda: |-
+              return id(light_1).state == false;
+        then:
+          - switch.turn_on: relay_1
     turn_off_action:
-      - switch.turn_on: relay_1
+      if:
+        condition:
+          - lambda: |-
+              return id(light_1).state == true;
+        then:
+          - switch.turn_on: relay_1
   - platform: template
     name: "light_2"
+    id: light_2
     lambda: |-
       if (id(input_2).state) {
         return true;
@@ -96,11 +108,22 @@ switch:
       }
     restore_mode: DISABLED
     turn_on_action:
-      - switch.turn_on: relay_2
+      if:
+        condition:
+          - lambda: |-
+              return id(light_2).state == false;
+        then:
+          - switch.turn_on: relay_2
     turn_off_action:
-      - switch.turn_on: relay_2
+      if:
+        condition:
+          - lambda: |-
+              return id(light_2).state == true;
+        then:
+          - switch.turn_on: relay_2
   - platform: template
     name: "light_3"
+    id: light_3
     lambda: |-
       if (id(input_3).state) {
         return true;
@@ -109,11 +132,22 @@ switch:
       }
     restore_mode: DISABLED
     turn_on_action:
-      - switch.turn_on: relay_3
+      if:
+        condition:
+          - lambda: |-
+              return id(light_3).state == false;
+        then:
+          - switch.turn_on: relay_3
     turn_off_action:
-      - switch.turn_on: relay_3
+      if:
+        condition:
+          - lambda: |-
+              return id(light_3).state == true;
+        then:
+          - switch.turn_on: relay_3
   - platform: template
     name: "light_4"
+    id: light_4
     lambda: |-
       if (id(input_4).state) {
         return true;
@@ -122,11 +156,22 @@ switch:
       }
     restore_mode: DISABLED
     turn_on_action:
-      - switch.turn_on: relay_4
+      if:
+        condition:
+          - lambda: |-
+              return id(light_4).state == false;
+        then:
+          - switch.turn_on: relay_4
     turn_off_action:
-      - switch.turn_on: relay_4
+      if:
+        condition:
+          - lambda: |-
+              return id(light_4).state == true;
+        then:
+          - switch.turn_on: relay_4
   - platform: template
     name: "light_5"
+    id: light_5
     lambda: |-
       if (id(input_5).state) {
         return true;
@@ -135,11 +180,22 @@ switch:
       }
     restore_mode: DISABLED
     turn_on_action:
-      - switch.turn_on: relay_5
+      if:
+        condition:
+          - lambda: |-
+              return id(light_5).state == false;
+        then:
+          - switch.turn_on: relay_5
     turn_off_action:
-      - switch.turn_on: relay_5
+      if:
+        condition:
+          - lambda: |-
+              return id(light_5).state == true;
+        then:
+          - switch.turn_on: relay_5
   - platform: template
     name: "light_6"
+    id: light_6
     lambda: |-
       if (id(input_6).state) {
         return true;
@@ -148,11 +204,22 @@ switch:
       }
     restore_mode: DISABLED
     turn_on_action:
-      - switch.turn_on: relay_6
+      if:
+        condition:
+          - lambda: |-
+              return id(light_6).state == false;
+        then:
+          - switch.turn_on: relay_6
     turn_off_action:
-      - switch.turn_on: relay_6
+      if:
+        condition:
+          - lambda: |-
+             return id(light_6).state == true;
+        then:
+          - switch.turn_on: relay_6
   - platform: template
     name: "light_7"
+    id: light_7
     lambda: |-
       if (id(input_7).state) {
         return true;
@@ -161,11 +228,22 @@ switch:
       }
     restore_mode: DISABLED
     turn_on_action:
-      - switch.turn_on: relay_7
+      if:
+        condition:
+          - lambda: |-
+              return id(light_7).state == false;
+        then:
+          - switch.turn_on: relay_7
     turn_off_action:
-      - switch.turn_on: relay_7
+      if:
+        condition:
+          - lambda: |-
+              return id(light_7).state == true;
+        then:
+          - switch.turn_on: relay_7
   - platform: template
     name: "light_8"
+    id: light_8
     lambda: |-
       if (id(input_8).state) {
         return true;
@@ -174,9 +252,19 @@ switch:
       }
     restore_mode: DISABLED
     turn_on_action:
-      - switch.turn_on: relay_8
+      if:
+        condition:
+          - lambda: |-
+              return id(light_8).state == false;
+        then:
+          - switch.turn_on: relay_8
     turn_off_action:
-      - switch.turn_on: relay_8
+      if:
+        condition:
+          - lambda: |-
+              return id(light_8).state == true;
+        then:
+          - switch.turn_on: relay_8
 binary_sensor:
   - platform: gpio
     pin: 14
