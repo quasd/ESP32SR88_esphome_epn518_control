@@ -17,7 +17,7 @@ script:
               - switch.turn_on: relay_1
               - delay: 200ms
               - switch.turn_off: relay_1
-              - delay: 550ms
+              - delay: 400ms
         else:
           if:
             condition:
@@ -27,7 +27,7 @@ script:
               - switch.turn_on: relay_1
               - delay: 200ms
               - switch.turn_off: relay_1
-              - delay: 550ms
+              - delay: 400ms
   - id: script_2
     mode: queued
     parameters:
@@ -46,7 +46,7 @@ script:
               - switch.turn_on: relay_2
               - delay: 200ms
               - switch.turn_off: relay_2
-              - delay: 550ms
+              - delay: 400ms
         else:
           if:
             condition:
@@ -56,7 +56,7 @@ script:
               - switch.turn_on: relay_2
               - delay: 200ms
               - switch.turn_off: relay_2
-              - delay: 550ms
+              - delay: 400ms
   - id: script_3
     mode: queued
     parameters:
@@ -75,7 +75,7 @@ script:
               - switch.turn_on: relay_3
               - delay: 200ms
               - switch.turn_off: relay_3
-              - delay: 550ms
+              - delay: 400ms
         else:
           if:
             condition:
@@ -85,7 +85,7 @@ script:
               - switch.turn_on: relay_3
               - delay: 200ms
               - switch.turn_off: relay_3
-              - delay: 550ms
+              - delay: 400ms
   - id: script_4
     mode: queued
     parameters:
@@ -104,7 +104,7 @@ script:
               - switch.turn_on: relay_4
               - delay: 200ms
               - switch.turn_off: relay_4
-              - delay: 550ms
+              - delay: 400ms
         else:
           if:
             condition:
@@ -114,7 +114,7 @@ script:
               - switch.turn_on: relay_4
               - delay: 200ms
               - switch.turn_off: relay_4
-              - delay: 550ms
+              - delay: 400ms
   - id: script_5
     mode: queued
     parameters:
@@ -133,7 +133,7 @@ script:
               - switch.turn_on: relay_5
               - delay: 200ms
               - switch.turn_off: relay_5
-              - delay: 550ms
+              - delay: 400ms
         else:
           if:
             condition:
@@ -143,7 +143,7 @@ script:
               - switch.turn_on: relay_5
               - delay: 200ms
               - switch.turn_off: relay_5
-              - delay: 550ms
+              - delay: 400ms
   - id: script_6
     mode: queued
     parameters:
@@ -162,7 +162,7 @@ script:
               - switch.turn_on: relay_6
               - delay: 200ms
               - switch.turn_off: relay_6
-              - delay: 550ms
+              - delay: 400ms
         else:
           if:
             condition:
@@ -172,7 +172,7 @@ script:
               - switch.turn_on: relay_6
               - delay: 200ms
               - switch.turn_off: relay_6
-              - delay: 550ms
+              - delay: 400ms
   - id: script_7
     mode: queued
     parameters:
@@ -191,7 +191,7 @@ script:
               - switch.turn_on: relay_7
               - delay: 200ms
               - switch.turn_off: relay_7
-              - delay: 550ms
+              - delay: 400ms
         else:
           if:
             condition:
@@ -201,7 +201,7 @@ script:
               - switch.turn_on: relay_7
               - delay: 200ms
               - switch.turn_off: relay_7
-              - delay: 550ms
+              - delay: 400ms
   - id: script_8
     mode: queued
     parameters:
@@ -220,7 +220,7 @@ script:
               - switch.turn_on: relay_8
               - delay: 200ms
               - switch.turn_off: relay_8
-              - delay: 550ms
+              - delay: 400ms
         else:
           if:
             condition:
@@ -230,7 +230,7 @@ script:
               - switch.turn_on: relay_8
               - delay: 200ms
               - switch.turn_off: relay_8
-              - delay: 550ms
+              - delay: 400ms
 
 switch:
   ###### RELAYS #########
