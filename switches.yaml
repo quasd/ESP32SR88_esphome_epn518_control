@@ -17,7 +17,7 @@ script:
               - switch.turn_on: relay_1
               - delay: 200ms
               - switch.turn_off: relay_1
-              - delay: 400ms
+              - delay: 600ms
         else:
           if:
             condition:
@@ -27,7 +27,7 @@ script:
               - switch.turn_on: relay_1
               - delay: 200ms
               - switch.turn_off: relay_1
-              - delay: 400ms
+              - delay: 600ms
   - id: script_2
     mode: queued
     parameters:
@@ -46,7 +46,7 @@ script:
               - switch.turn_on: relay_2
               - delay: 200ms
               - switch.turn_off: relay_2
-              - delay: 400ms
+              - delay: 600ms
         else:
           if:
             condition:
@@ -56,7 +56,7 @@ script:
               - switch.turn_on: relay_2
               - delay: 200ms
               - switch.turn_off: relay_2
-              - delay: 400ms
+              - delay: 600ms
   - id: script_3
     mode: queued
     parameters:
@@ -75,7 +75,7 @@ script:
               - switch.turn_on: relay_3
               - delay: 200ms
               - switch.turn_off: relay_3
-              - delay: 400ms
+              - delay: 600ms
         else:
           if:
             condition:
@@ -85,7 +85,7 @@ script:
               - switch.turn_on: relay_3
               - delay: 200ms
               - switch.turn_off: relay_3
-              - delay: 400ms
+              - delay: 600ms
   - id: script_4
     mode: queued
     parameters:
@@ -104,7 +104,7 @@ script:
               - switch.turn_on: relay_4
               - delay: 200ms
               - switch.turn_off: relay_4
-              - delay: 400ms
+              - delay: 600ms
         else:
           if:
             condition:
@@ -114,7 +114,7 @@ script:
               - switch.turn_on: relay_4
               - delay: 200ms
               - switch.turn_off: relay_4
-              - delay: 400ms
+              - delay: 600ms
   - id: script_5
     mode: queued
     parameters:
@@ -133,7 +133,7 @@ script:
               - switch.turn_on: relay_5
               - delay: 200ms
               - switch.turn_off: relay_5
-              - delay: 400ms
+              - delay: 600ms
         else:
           if:
             condition:
@@ -143,7 +143,7 @@ script:
               - switch.turn_on: relay_5
               - delay: 200ms
               - switch.turn_off: relay_5
-              - delay: 400ms
+              - delay: 600ms
   - id: script_6
     mode: queued
     parameters:
@@ -162,7 +162,7 @@ script:
               - switch.turn_on: relay_6
               - delay: 200ms
               - switch.turn_off: relay_6
-              - delay: 400ms
+              - delay: 600ms
         else:
           if:
             condition:
@@ -172,7 +172,7 @@ script:
               - switch.turn_on: relay_6
               - delay: 200ms
               - switch.turn_off: relay_6
-              - delay: 400ms
+              - delay: 600ms
   - id: script_7
     mode: queued
     parameters:
@@ -191,7 +191,7 @@ script:
               - switch.turn_on: relay_7
               - delay: 200ms
               - switch.turn_off: relay_7
-              - delay: 400ms
+              - delay: 600ms
         else:
           if:
             condition:
@@ -201,7 +201,7 @@ script:
               - switch.turn_on: relay_7
               - delay: 200ms
               - switch.turn_off: relay_7
-              - delay: 400ms
+              - delay: 600ms
   - id: script_8
     mode: queued
     parameters:
@@ -220,7 +220,7 @@ script:
               - switch.turn_on: relay_8
               - delay: 200ms
               - switch.turn_off: relay_8
-              - delay: 400ms
+              - delay: 600ms
         else:
           if:
             condition:
@@ -230,7 +230,7 @@ script:
               - switch.turn_on: relay_8
               - delay: 200ms
               - switch.turn_off: relay_8
-              - delay: 400ms
+              - delay: 600ms
 
 switch:
   ###### RELAYS #########
@@ -436,7 +436,7 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
+      - delayed_on: 300ms
   - platform: gpio
     pin: 16
     id: input_2
@@ -444,7 +444,7 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
+      - delayed_on: 300ms
   - platform: gpio
     pin: 17
     id: input_3
@@ -452,7 +452,7 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
+      - delayed_on: 300ms
   - platform: gpio
     pin: 18
     name: "Input_4"
@@ -460,7 +460,7 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
+      - delayed_on: 300ms
   - platform: gpio
     pin: 19
     name: "Input_5"
@@ -468,7 +468,7 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
+      - delayed_on: 300ms
   - platform: gpio
     pin: 21
     name: "Input_6"
@@ -476,7 +476,7 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
+      - delayed_on: 300ms
   - platform: gpio
     pin: 22
     name: "Input_7"
@@ -484,7 +484,7 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
+      - delayed_on: 300ms
   - platform: gpio
     pin: 23
     id: input_8
@@ -492,4 +492,4 @@ binary_sensor:
     name: "Input_8"
     device_class: power
     filters:
-      - delayed_on: 400ms
+      - delayed_on: 300ms
