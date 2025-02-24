@@ -1,3 +1,237 @@
+script:
+  - id: script_1
+    mode: queued
+    parameters:
+      light_wanted_state: bool
+    then:
+      if:
+        condition:
+          - lambda: |- 
+              return light_wanted_state;
+        then:
+          if:
+            condition:
+              - lambda: |-
+                  return id(light_1).state == false;
+            then:
+              - switch.turn_on: relay_1
+              - delay: 200ms
+              - switch.turn_off: relay_1
+              - delay: 550ms
+        else:
+          if:
+            condition:
+              - lambda: |-
+                  return id(light_1).state == true;
+            then:
+              - switch.turn_on: relay_1
+              - delay: 200ms
+              - switch.turn_off: relay_1
+              - delay: 550ms
+  - id: script_2
+    mode: queued
+    parameters:
+      light_wanted_state: bool
+    then:
+      if:
+        condition:
+          - lambda: |-
+              return light_wanted_state;
+        then:
+          if:
+            condition:
+              - lambda: |-
+                  return id(light_2).state == false;
+            then:
+              - switch.turn_on: relay_2
+              - delay: 200ms
+              - switch.turn_off: relay_2
+              - delay: 550ms
+        else:
+          if:
+            condition:
+              - lambda: |-
+                  return id(light_2).state == true;
+            then:
+              - switch.turn_on: relay_2
+              - delay: 200ms
+              - switch.turn_off: relay_2
+              - delay: 550ms
+  - id: script_3
+    mode: queued
+    parameters:
+      light_wanted_state: bool
+    then:
+      if:
+        condition:
+          - lambda: |-
+              return light_wanted_state;
+        then:
+          if:
+            condition:
+              - lambda: |-
+                  return id(light_3).state == false;
+            then:
+              - switch.turn_on: relay_3
+              - delay: 200ms
+              - switch.turn_off: relay_3
+              - delay: 550ms
+        else:
+          if:
+            condition:
+              - lambda: |-
+                  return id(light_3).state == true;
+            then:
+              - switch.turn_on: relay_3
+              - delay: 200ms
+              - switch.turn_off: relay_3
+              - delay: 550ms
+  - id: script_4
+    mode: queued
+    parameters:
+      light_wanted_state: bool
+    then:
+      if:
+        condition:
+          - lambda: |-
+              return light_wanted_state;
+        then:
+          if:
+            condition:
+              - lambda: |-
+                  return id(light_4).state == false;
+            then:
+              - switch.turn_on: relay_4
+              - delay: 200ms
+              - switch.turn_off: relay_4
+              - delay: 550ms
+        else:
+          if:
+            condition:
+              - lambda: |-
+                  return id(light_4).state == true;
+            then:
+              - switch.turn_on: relay_4
+              - delay: 200ms
+              - switch.turn_off: relay_4
+              - delay: 550ms
+  - id: script_5
+    mode: queued
+    parameters:
+      light_wanted_state: bool
+    then:
+      if:
+        condition:
+          - lambda: |-
+              return light_wanted_state;
+        then:
+          if:
+            condition:
+              - lambda: |-
+                  return id(light_5).state == false;
+            then:
+              - switch.turn_on: relay_5
+              - delay: 200ms
+              - switch.turn_off: relay_5
+              - delay: 550ms
+        else:
+          if:
+            condition:
+              - lambda: |-
+                  return id(light_5).state == true;
+            then:
+              - switch.turn_on: relay_5
+              - delay: 200ms
+              - switch.turn_off: relay_5
+              - delay: 550ms
+  - id: script_6
+    mode: queued
+    parameters:
+      light_wanted_state: bool
+    then:
+      if:
+        condition:
+          - lambda: |-
+              return light_wanted_state;
+        then:
+          if:
+            condition:
+              - lambda: |-
+                  return id(light_6).state == false;
+            then:
+              - switch.turn_on: relay_6
+              - delay: 200ms
+              - switch.turn_off: relay_6
+              - delay: 550ms
+        else:
+          if:
+            condition:
+              - lambda: |-
+                  return id(light_6).state == true;
+            then:
+              - switch.turn_on: relay_6
+              - delay: 200ms
+              - switch.turn_off: relay_6
+              - delay: 550ms
+  - id: script_7
+    mode: queued
+    parameters:
+      light_wanted_state: bool
+    then:
+      if:
+        condition:
+          - lambda: |-
+              return light_wanted_state;
+        then:
+          if:
+            condition:
+              - lambda: |-
+                  return id(light_7).state == false;
+            then:
+              - switch.turn_on: relay_7
+              - delay: 200ms
+              - switch.turn_off: relay_7
+              - delay: 550ms
+        else:
+          if:
+            condition:
+              - lambda: |-
+                  return id(light_7).state == true;
+            then:
+              - switch.turn_on: relay_7
+              - delay: 200ms
+              - switch.turn_off: relay_7
+              - delay: 550ms
+  - id: script_8
+    mode: queued
+    parameters:
+      light_wanted_state: bool
+    then:
+      if:
+        condition:
+          - lambda: |-
+              return light_wanted_state;
+        then:
+          if:
+            condition:
+              - lambda: |-
+                  return id(light_8).state == false;
+            then:
+              - switch.turn_on: relay_8
+              - delay: 200ms
+              - switch.turn_off: relay_8
+              - delay: 550ms
+        else:
+          if:
+            condition:
+              - lambda: |-
+                  return id(light_8).state == true;
+            then:
+              - switch.turn_on: relay_8
+              - delay: 200ms
+              - switch.turn_off: relay_8
+              - delay: 550ms
+
 switch:
   ###### RELAYS #########
   - platform: gpio
@@ -6,72 +240,48 @@ switch:
     id: relay_1
     internal: $hide_outputs
     restore_mode: RESTORE_DEFAULT_OFF
-    on_turn_on:
-    - delay: 200ms
-    - switch.turn_off: relay_1
   - platform: gpio
     name: "Relay_2"
     pin: 12
     id: relay_2
     internal: $hide_outputs
     restore_mode: RESTORE_DEFAULT_OFF
-    on_turn_on:
-    - delay: 200ms
-    - switch.turn_off: relay_2
   - platform: gpio
     name: "Relay_3"
     pin: 4
     id: relay_3
     internal: $hide_outputs
     restore_mode: RESTORE_DEFAULT_OFF
-    on_turn_on:
-    - delay: 200ms
-    - switch.turn_off: relay_3
   - platform: gpio
     name: "Relay_4"
     pin: 27
     id: relay_4
     internal: $hide_outputs
     restore_mode: RESTORE_DEFAULT_OFF
-    on_turn_on:
-    - delay: 200ms
-    - switch.turn_off: relay_4
   - platform: gpio
     name: "Relay_5"
     id: relay_5
     internal: $hide_outputs
     restore_mode: RESTORE_DEFAULT_OFF
     pin: 26
-    on_turn_on:
-    - delay: 200ms
-    - switch.turn_off: relay_5
   - platform: gpio
     name: "Relay_6"
     pin: 25
     internal: $hide_outputs
     restore_mode: RESTORE_DEFAULT_OFF
     id: relay_6
-    on_turn_on:
-    - delay: 200ms
-    - switch.turn_off: relay_6
   - platform: gpio
     name: "Relay_7"
     pin: 33
     id: relay_7
     internal: $hide_outputs
     restore_mode: RESTORE_DEFAULT_OFF
-    on_turn_on:
-    - delay: 200ms
-    - switch.turn_off: relay_7
   - platform: gpio
     name: "Relay_8"
     pin: 32
     id: relay_8
     internal: $hide_outputs
     restore_mode: RESTORE_DEFAULT_OFF
-    on_turn_on:
-    - delay: 200ms
-    - switch.turn_off: relay_8
   ###### Virtual switches ########
   - platform: template
     name: "light_1"
@@ -84,19 +294,13 @@ switch:
       }
     restore_mode: DISABLED
     turn_on_action:
-      if:
-        condition:
-          - lambda: |-
-              return id(light_1).state == false;
-        then:
-          - switch.turn_on: relay_1
+      - script.execute:
+          id: script_1
+          light_wanted_state: true
     turn_off_action:
-      if:
-        condition:
-          - lambda: |-
-              return id(light_1).state == true;
-        then:
-          - switch.turn_on: relay_1
+      - script.execute:
+          id: script_1
+          light_wanted_state: false
   - platform: template
     name: "light_2"
     id: light_2
@@ -108,19 +312,13 @@ switch:
       }
     restore_mode: DISABLED
     turn_on_action:
-      if:
-        condition:
-          - lambda: |-
-              return id(light_2).state == false;
-        then:
-          - switch.turn_on: relay_2
+      - script.execute:
+          id: script_2
+          light_wanted_state: true
     turn_off_action:
-      if:
-        condition:
-          - lambda: |-
-              return id(light_2).state == true;
-        then:
-          - switch.turn_on: relay_2
+      - script.execute:
+          id: script_2
+          light_wanted_state: false
   - platform: template
     name: "light_3"
     id: light_3
@@ -132,19 +330,13 @@ switch:
       }
     restore_mode: DISABLED
     turn_on_action:
-      if:
-        condition:
-          - lambda: |-
-              return id(light_3).state == false;
-        then:
-          - switch.turn_on: relay_3
+      - script.execute:
+          id: script_3
+          light_wanted_state: true
     turn_off_action:
-      if:
-        condition:
-          - lambda: |-
-              return id(light_3).state == true;
-        then:
-          - switch.turn_on: relay_3
+      - script.execute:
+          id: script_3
+          light_wanted_state: false
   - platform: template
     name: "light_4"
     id: light_4
@@ -156,19 +348,13 @@ switch:
       }
     restore_mode: DISABLED
     turn_on_action:
-      if:
-        condition:
-          - lambda: |-
-              return id(light_4).state == false;
-        then:
-          - switch.turn_on: relay_4
+      - script.execute:
+          id: script_4
+          light_wanted_state: true
     turn_off_action:
-      if:
-        condition:
-          - lambda: |-
-              return id(light_4).state == true;
-        then:
-          - switch.turn_on: relay_4
+      - script.execute:
+          id: script_4
+          light_wanted_state: false
   - platform: template
     name: "light_5"
     id: light_5
@@ -180,19 +366,13 @@ switch:
       }
     restore_mode: DISABLED
     turn_on_action:
-      if:
-        condition:
-          - lambda: |-
-              return id(light_5).state == false;
-        then:
-          - switch.turn_on: relay_5
+      - script.execute:
+          id: script_5
+          light_wanted_state: true
     turn_off_action:
-      if:
-        condition:
-          - lambda: |-
-              return id(light_5).state == true;
-        then:
-          - switch.turn_on: relay_5
+      - script.execute:
+          id: script_5
+          light_wanted_state: false
   - platform: template
     name: "light_6"
     id: light_6
@@ -204,19 +384,13 @@ switch:
       }
     restore_mode: DISABLED
     turn_on_action:
-      if:
-        condition:
-          - lambda: |-
-              return id(light_6).state == false;
-        then:
-          - switch.turn_on: relay_6
+      - script.execute:
+          id: script_6
+          light_wanted_state: true
     turn_off_action:
-      if:
-        condition:
-          - lambda: |-
-             return id(light_6).state == true;
-        then:
-          - switch.turn_on: relay_6
+      - script.execute:
+          id: script_6
+          light_wanted_state: false
   - platform: template
     name: "light_7"
     id: light_7
@@ -228,19 +402,13 @@ switch:
       }
     restore_mode: DISABLED
     turn_on_action:
-      if:
-        condition:
-          - lambda: |-
-              return id(light_7).state == false;
-        then:
-          - switch.turn_on: relay_7
+      - script.execute:
+          id: script_7
+          light_wanted_state: true
     turn_off_action:
-      if:
-        condition:
-          - lambda: |-
-              return id(light_7).state == true;
-        then:
-          - switch.turn_on: relay_7
+      - script.execute:
+          id: script_7
+          light_wanted_state: false
   - platform: template
     name: "light_8"
     id: light_8
@@ -252,19 +420,14 @@ switch:
       }
     restore_mode: DISABLED
     turn_on_action:
-      if:
-        condition:
-          - lambda: |-
-              return id(light_8).state == false;
-        then:
-          - switch.turn_on: relay_8
+      - script.execute:
+          id: script_8
+          light_wanted_state: true
     turn_off_action:
-      if:
-        condition:
-          - lambda: |-
-              return id(light_8).state == true;
-        then:
-          - switch.turn_on: relay_8
+      - script.execute:
+          id: script_8
+          light_wanted_state: false
+
 binary_sensor:
   - platform: gpio
     pin: 14
