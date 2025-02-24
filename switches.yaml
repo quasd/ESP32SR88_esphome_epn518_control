@@ -436,7 +436,7 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 500ms
+      - delayed_on: 400ms
   - platform: gpio
     pin: 16
     id: input_2
@@ -444,7 +444,7 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 500ms
+      - delayed_on: 400ms
   - platform: gpio
     pin: 17
     id: input_3
@@ -452,7 +452,7 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 500ms
+      - delayed_on: 400ms
   - platform: gpio
     pin: 18
     name: "Input_4"
@@ -460,7 +460,7 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 500ms
+      - delayed_on: 400ms
   - platform: gpio
     pin: 19
     name: "Input_5"
@@ -468,7 +468,7 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 500ms
+      - delayed_on: 400ms
   - platform: gpio
     pin: 21
     name: "Input_6"
@@ -476,7 +476,7 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 500ms
+      - delayed_on: 400ms
   - platform: gpio
     pin: 22
     name: "Input_7"
@@ -484,7 +484,7 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 500ms
+      - delayed_on: 400ms
   - platform: gpio
     pin: 23
     id: input_8
@@ -492,4 +492,4 @@ binary_sensor:
     name: "Input_8"
     device_class: power
     filters:
-      - delayed_on: 500ms
+      - delayed_on: 400ms
