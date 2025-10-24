@@ -76,6 +76,7 @@ script:
               
               ESP_LOGW("toggle", "Light %d attempt %d failed, retrying...", light_num, attempt + 1);
             }
+          }
 
 switch:
   - platform: restart
