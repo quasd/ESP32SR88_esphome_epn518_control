@@ -55,16 +55,27 @@ script:
             id(relay_5), id(relay_6), id(relay_7), id(relay_8)
           };
           
-          // Validate light_num
           if (light_num < 1 || light_num > 8) return;
           
-          // Only toggle if state needs to change
           if (light_wanted_state != lights[light_num]->state) {
-            relays[light_num]->turn_on();
-            delay(id(delay_on).state);
-            relays[light_num]->turn_off();
-            delay(id(delay_off).state);
-          }
+            int max_attempts = 3;
+            for (int attempt = 0; attempt < max_attempts; attempt++) {
+              // Pulse the relay
+              relays[light_num]->turn_on();
+              delay(id(delay_on).state);
+              relays[light_num]->turn_off();
+              delay(id(delay_off).state);
+              
+              // Wait for state to update (give detection_delay time + buffer)
+              delay(id(detection_delay).state + 100);
+              
+              // Check if it worked
+              if (lights[light_num]->state == light_wanted_state) {
+                break; // Success!
+              }
+              
+              ESP_LOGW("toggle", "Light %d attempt %d failed, retrying...", light_num, attempt + 1);
+            }
 
 switch:
   - platform: restart
