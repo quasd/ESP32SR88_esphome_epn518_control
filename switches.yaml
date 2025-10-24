@@ -1,81 +1,126 @@
-number:
-  - platform: template
-    name: "keep_pressing_button_delay"
-    id: delay_on
-    min_value: 100
-    max_value: 1000
-    step: 50
-    initial_value: 250
-    optimistic: true
-    restore_value: true
-    unit_of_measurement: "ms"
-    mode: slider
-  - platform: template
-    name: "after_push_delay"
-    id: delay_off
-    min_value: 500
-    max_value: 1500
-    step: 100
-    initial_value: 1000
-    optimistic: true
-    restore_value: true
-    unit_of_measurement: "ms"
-    mode: slider
-  - platform: template
-    name: "on_detection_delay"
-    id: detection_delay
-    min_value: 200
-    max_value: 1500
-    step: 100
-    initial_value: 300
-    optimistic: true
-    restore_value: true
-    unit_of_measurement: "ms"
-    mode: slider
+globals:
+  - id: light_1_busy
+    type: bool
+    initial_value: 'false'
+  - id: light_2_busy
+    type: bool
+    initial_value: 'false'
+  - id: light_3_busy
+    type: bool
+    initial_value: 'false'
+  - id: light_4_busy
+    type: bool
+    initial_value: 'false'
+  - id: light_5_busy
+    type: bool
+    initial_value: 'false'
+  - id: light_6_busy
+    type: bool
+    initial_value: 'false'
+  - id: light_7_busy
+    type: bool
+    initial_value: 'false'
+  - id: light_8_busy
+    type: bool
+    initial_value: 'false'
 
 script:
   - id: toggle_light
-    mode: queued
+    mode: parallel
     max_runs: 8
     parameters:
       light_num: int
       light_wanted_state: bool
     then:
       - lambda: |-
-          // Arrays of component pointers (index 0 is unused for 1-based indexing)
           esphome::template_::TemplateSwitch* lights[] = {
             nullptr,
             id(light_1), id(light_2), id(light_3), id(light_4),
             id(light_5), id(light_6), id(light_7), id(light_8)
           };
           
+          bool* busy_flags[] = {
+            nullptr,
+            &id(light_1_busy), &id(light_2_busy), &id(light_3_busy), &id(light_4_busy),
+            &id(light_5_busy), &id(light_6_busy), &id(light_7_busy), &id(light_8_busy)
+          };
+          
+          if (light_num < 1 || light_num > 8) return;
+          
+          // Check if this light is already being processed
+          if (*busy_flags[light_num]) {
+            ESP_LOGW("toggle", "Light %d is already being toggled, ignoring request", light_num);
+            return;
+          }
+          
+          // Check if already in desired state
+          if (light_wanted_state == lights[light_num]->state) return;
+          
+          // Mark as busy
+          *busy_flags[light_num] = true;
+      
+      - script.execute:
+          id: pulse_relay_with_retry
+          light_num: !lambda "return light_num;"
+          light_wanted_state: !lambda "return light_wanted_state;"
+          attempt: 1
+
+  - id: pulse_relay_with_retry
+    mode: parallel
+    max_runs: 24
+    parameters:
+      light_num: int
+      light_wanted_state: bool
+      attempt: int
+    then:
+      - lambda: |-
           esphome::gpio::GPIOSwitch* relays[] = {
             nullptr,
             id(relay_1), id(relay_2), id(relay_3), id(relay_4),
             id(relay_5), id(relay_6), id(relay_7), id(relay_8)
           };
+          relays[light_num]->turn_on();
+      
+      - delay: 250ms
+      
+      - lambda: |-
+          esphome::gpio::GPIOSwitch* relays[] = {
+            nullptr,
+            id(relay_1), id(relay_2), id(relay_3), id(relay_4),
+            id(relay_5), id(relay_6), id(relay_7), id(relay_8)
+          };
+          relays[light_num]->turn_off();
+
+      - delay: 600ms
+      - delay: 600ms
+      
+      - lambda: |-
+          esphome::template_::TemplateSwitch* lights[] = {
+            nullptr,
+            id(light_1), id(light_2), id(light_3), id(light_4),
+            id(light_5), id(light_6), id(light_7), id(light_8)
+          };
           
-          if (light_num < 1 || light_num > 8) return;
+          bool* busy_flags[] = {
+            nullptr,
+            &id(light_1_busy), &id(light_2_busy), &id(light_3_busy), &id(light_4_busy),
+            &id(light_5_busy), &id(light_6_busy), &id(light_7_busy), &id(light_8_busy)
+          };
           
-          if (light_wanted_state != lights[light_num]->state) {
-            int max_attempts = 3;
-            for (int attempt = 0; attempt < max_attempts; attempt++) {
-              // Pulse the relay
-              relays[light_num]->turn_on();
-              delay(id(delay_on).state);
-              relays[light_num]->turn_off();
-              delay(id(delay_off).state);
-              
-              // Wait for state to update (give detection_delay time + buffer)
-              delay(id(detection_delay).state + 100);
-              
-              // Check if it worked
-              if (lights[light_num]->state == light_wanted_state) {
-                break; // Success!
-              }
-              
-              ESP_LOGW("toggle", "Light %d attempt %d failed, retrying...", light_num, attempt + 1);
+          // Check if it worked
+          if (lights[light_num]->state != light_wanted_state) {
+            if (attempt < 3) {
+              ESP_LOGW("toggle", "Light %d attempt %d failed, retrying...", light_num, attempt);
+              id(pulse_relay_with_retry).execute(light_num, light_wanted_state, attempt + 1);
+            } else {
+              ESP_LOGE("toggle", "Light %d failed after 3 attempts", light_num);
+              // Release the lock
+              *busy_flags[light_num] = false;
             }
+          } else {
+            ESP_LOGI("toggle", "Light %d successfully toggled to %s", light_num, light_wanted_state ? "ON" : "OFF");
+            // Release the lock
+            *busy_flags[light_num] = false;
           }
 
 switch:
@@ -136,6 +181,7 @@ switch:
     name: "light_1"
     id: light_1
     lambda: return id(input_1).state;
+    restore_mode: DISABLED
     turn_on_action:
       - script.execute:
           id: toggle_light
@@ -146,10 +192,12 @@ switch:
           id: toggle_light
           light_num: 1
           light_wanted_state: false
+
   - platform: template
     name: "light_2"
     id: light_2
     lambda: return id(input_2).state;
+    restore_mode: DISABLED
     turn_on_action:
       - script.execute:
           id: toggle_light
@@ -165,6 +213,7 @@ switch:
     name: "light_3"
     id: light_3
     lambda: return id(input_3).state;
+    restore_mode: DISABLED
     turn_on_action:
       - script.execute:
           id: toggle_light
@@ -180,6 +229,7 @@ switch:
     name: "light_4"
     id: light_4
     lambda: return id(input_4).state;
+    restore_mode: DISABLED
     turn_on_action:
       - script.execute:
           id: toggle_light
@@ -195,6 +245,7 @@ switch:
     name: "light_5"
     id: light_5
     lambda: return id(input_5).state;
+    restore_mode: DISABLED
     turn_on_action:
       - script.execute:
           id: toggle_light
@@ -210,6 +261,7 @@ switch:
     name: "light_6"
     id: light_6
     lambda: return id(input_6).state;
+    restore_mode: DISABLED
     turn_on_action:
       - script.execute:
           id: toggle_light
@@ -225,6 +277,7 @@ switch:
     name: "light_7"
     id: light_7
     lambda: return id(input_7).state;
+    restore_mode: DISABLED
     turn_on_action:
       - script.execute:
           id: toggle_light
@@ -240,6 +293,7 @@ switch:
     name: "light_8"
     id: light_8
     lambda: return id(input_8).state;
+    restore_mode: DISABLED
     turn_on_action:
       - script.execute:
           id: toggle_light
@@ -253,74 +307,113 @@ switch:
 
 binary_sensor:
   - platform: gpio
-    pin: 14
+    pin: 
+      number: 14
+      mode:
+        input: true
+        pulldown: true
     id: input_1
     name: "Input_1"
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: !lambda |-
-          return id(detection_delay).state;
+      - delayed_on: 400ms
+      - delayed_off: 400ms
+
   - platform: gpio
-    pin: 16
+    pin: 
+      number: 16
+      mode:
+        input: true
+        pulldown: true
     id: input_2
     name: "Input_2"
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: !lambda |-
-          return id(detection_delay).state;
+      - delayed_on: 400ms
+      - delayed_off: 400ms
+  
   - platform: gpio
-    pin: 17
+    pin: 
+      number: 17
+      mode:
+        input: true
+        pulldown: true
     id: input_3
     name: "Input_3"
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: !lambda |-
-          return id(detection_delay).state;
+      - delayed_on: 400ms
+      - delayed_off: 400ms
+
   - platform: gpio
-    pin: 18
+    pin: 
+      number: 18
+      mode:
+        input: true
+        pulldown: true
     id: input_4
     name: "Input_4"
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: !lambda |-
-          return id(detection_delay).state;
+      - delayed_on: 400ms
+      - delayed_off: 400ms
+
   - platform: gpio
-    pin: 19
+    pin: 
+      number: 19
+      mode:
+        input: true
+        pulldown: true
     id: input_5
     name: "Input_5"
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: !lambda |-
-          return id(detection_delay).state;
+      - delayed_on: 400ms
+      - delayed_off: 400ms
+
   - platform: gpio
-    pin: 21
+    pin: 
+      number: 21
+      mode:
+        input: true
+        pulldown: true
     id: input_6
     name: "Input_6"
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: !lambda |-
-          return id(detection_delay).state;
+      - delayed_on: 400ms
+      - delayed_off: 400ms
+
   - platform: gpio
-    pin: 22
+    pin: 
+      number: 22
+      mode:
+        input: true
+        pulldown: true
     id: input_7
     name: "Input_7"
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: !lambda |-
-          return id(detection_delay).state;
+      - delayed_on: 400ms
+      - delayed_off: 400ms
+
   - platform: gpio
-    pin: 23
+    pin: 
+      number: 23
+      mode:
+        input: true
+        pulldown: true
     id: input_8
     name: "Input_8"
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: !lambda |-
-          return id(detection_delay).state;
+      - delayed_on: 400ms
+      - delayed_off: 400ms
