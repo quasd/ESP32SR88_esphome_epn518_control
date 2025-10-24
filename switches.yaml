@@ -54,16 +54,14 @@ script:
           }
           
           // Check if already in desired state
-          if (light_wanted_state == lights[light_num]->state) return;
+          if (light_wanted_state == lights[light_num]->state) {
+            ESP_LOGW("toggle", "Light %d already correct state, ignoring request", light_num);
+            return;
+          }
           
           // Mark as busy
           *busy_flags[light_num] = true;
-      
-      - script.execute:
-          id: pulse_relay_with_retry
-          light_num: !lambda "return light_num;"
-          light_wanted_state: !lambda "return light_wanted_state;"
-          attempt: 1
+          id(pulse_relay_with_retry).execute(light_num, light_wanted_state, 1);
 
   - id: pulse_relay_with_retry
     mode: parallel
