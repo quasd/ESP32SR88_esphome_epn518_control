@@ -174,7 +174,7 @@ script:
           };
           relays[light_num]->turn_off();
 
-      - delay: 300ms
+      - delay: 500ms
       
       - lambda: |-
           esphome::template_::TemplateSwitch* lights[] = {
