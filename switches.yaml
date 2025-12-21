@@ -1,3 +1,8 @@
+substitutions:
+  input_debounce_delay: "200ms"  # Debounce filter for binary sensor inputs
+  relay_pulse_duration: "75ms"   # Pulse duration for latching relay
+  state_check_delay: "300ms"     # Delay before checking if toggle succeeded
+
 globals:
   - id: light_1_busy
     type: bool
@@ -164,7 +169,7 @@ script:
           };
           relays[light_num]->turn_on();
 
-      - delay: 75ms
+      - delay: $relay_pulse_duration
 
       - lambda: |-
           esphome::gpio::GPIOSwitch* relays[] = {
@@ -174,7 +179,7 @@ script:
           };
           relays[light_num]->turn_off();
 
-      - delay: 500ms
+      - delay: $state_check_delay
       
       - lambda: |-
           esphome::template_::TemplateSwitch* lights[] = {
@@ -373,7 +378,7 @@ switch:
 
 binary_sensor:
   - platform: gpio
-    pin: 
+    pin:
       number: 14
       mode:
         input: true
@@ -383,11 +388,11 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
-      - delayed_off: 400ms
+      - delayed_on: $input_debounce_delay
+      - delayed_off: $input_debounce_delay
 
   - platform: gpio
-    pin: 
+    pin:
       number: 16
       mode:
         input: true
@@ -397,11 +402,11 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
-      - delayed_off: 400ms
-  
+      - delayed_on: $input_debounce_delay
+      - delayed_off: $input_debounce_delay
+
   - platform: gpio
-    pin: 
+    pin:
       number: 17
       mode:
         input: true
@@ -411,11 +416,11 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
-      - delayed_off: 400ms
+      - delayed_on: $input_debounce_delay
+      - delayed_off: $input_debounce_delay
 
   - platform: gpio
-    pin: 
+    pin:
       number: 18
       mode:
         input: true
@@ -425,11 +430,11 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
-      - delayed_off: 400ms
+      - delayed_on: $input_debounce_delay
+      - delayed_off: $input_debounce_delay
 
   - platform: gpio
-    pin: 
+    pin:
       number: 19
       mode:
         input: true
@@ -439,11 +444,11 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
-      - delayed_off: 400ms
+      - delayed_on: $input_debounce_delay
+      - delayed_off: $input_debounce_delay
 
   - platform: gpio
-    pin: 
+    pin:
       number: 21
       mode:
         input: true
@@ -453,11 +458,11 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
-      - delayed_off: 400ms
+      - delayed_on: $input_debounce_delay
+      - delayed_off: $input_debounce_delay
 
   - platform: gpio
-    pin: 
+    pin:
       number: 22
       mode:
         input: true
@@ -467,11 +472,11 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
-      - delayed_off: 400ms
+      - delayed_on: $input_debounce_delay
+      - delayed_off: $input_debounce_delay
 
   - platform: gpio
-    pin: 
+    pin:
       number: 23
       mode:
         input: true
@@ -481,5 +486,5 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
-      - delayed_off: 400ms
+      - delayed_on: $input_debounce_delay
+      - delayed_off: $input_debounce_delay
