@@ -1,3 +1,8 @@
+substitutions:
+  input_debounce_delay: "200ms"  # Debounce filter for binary sensor inputs
+  relay_pulse_duration: "75ms"   # Pulse duration for latching relay
+  state_check_delay: "300ms"     # Delay before checking if toggle succeeded
+
 globals:
   - id: light_1_busy
     type: bool
@@ -25,7 +30,97 @@ globals:
     initial_value: 'false'
 
 script:
-  - id: toggle_light
+  # Per-light queued scripts - each light has its own queue
+  - id: toggle_light_1
+    mode: queued
+    max_runs: 10
+    parameters:
+      light_wanted_state: bool
+    then:
+      - script.execute:
+          id: toggle_light_internal
+          light_num: 1
+          light_wanted_state: !lambda return light_wanted_state;
+
+  - id: toggle_light_2
+    mode: queued
+    max_runs: 10
+    parameters:
+      light_wanted_state: bool
+    then:
+      - script.execute:
+          id: toggle_light_internal
+          light_num: 2
+          light_wanted_state: !lambda return light_wanted_state;
+
+  - id: toggle_light_3
+    mode: queued
+    max_runs: 10
+    parameters:
+      light_wanted_state: bool
+    then:
+      - script.execute:
+          id: toggle_light_internal
+          light_num: 3
+          light_wanted_state: !lambda return light_wanted_state;
+
+  - id: toggle_light_4
+    mode: queued
+    max_runs: 10
+    parameters:
+      light_wanted_state: bool
+    then:
+      - script.execute:
+          id: toggle_light_internal
+          light_num: 4
+          light_wanted_state: !lambda return light_wanted_state;
+
+  - id: toggle_light_5
+    mode: queued
+    max_runs: 10
+    parameters:
+      light_wanted_state: bool
+    then:
+      - script.execute:
+          id: toggle_light_internal
+          light_num: 5
+          light_wanted_state: !lambda return light_wanted_state;
+
+  - id: toggle_light_6
+    mode: queued
+    max_runs: 10
+    parameters:
+      light_wanted_state: bool
+    then:
+      - script.execute:
+          id: toggle_light_internal
+          light_num: 6
+          light_wanted_state: !lambda return light_wanted_state;
+
+  - id: toggle_light_7
+    mode: queued
+    max_runs: 10
+    parameters:
+      light_wanted_state: bool
+    then:
+      - script.execute:
+          id: toggle_light_internal
+          light_num: 7
+          light_wanted_state: !lambda return light_wanted_state;
+
+  - id: toggle_light_8
+    mode: queued
+    max_runs: 10
+    parameters:
+      light_wanted_state: bool
+    then:
+      - script.execute:
+          id: toggle_light_internal
+          light_num: 8
+          light_wanted_state: !lambda return light_wanted_state;
+
+  # Internal execution script - handles the actual toggling logic
+  - id: toggle_light_internal
     mode: parallel
     max_runs: 8
     parameters:
@@ -38,29 +133,24 @@ script:
             id(light_1), id(light_2), id(light_3), id(light_4),
             id(light_5), id(light_6), id(light_7), id(light_8)
           };
-          
+
           bool* busy_flags[] = {
             nullptr,
             &id(light_1_busy), &id(light_2_busy), &id(light_3_busy), &id(light_4_busy),
             &id(light_5_busy), &id(light_6_busy), &id(light_7_busy), &id(light_8_busy)
           };
-          
+
           if (light_num < 1 || light_num > 8) return;
-          
-          // Check if this light is already being processed
-          if (*busy_flags[light_num]) {
-            ESP_LOGW("toggle", "Light %d is already being toggled, ignoring request", light_num);
-            return;
-          }
-          
+
           // Check if already in desired state
           if (light_wanted_state == lights[light_num]->state) {
-            ESP_LOGW("toggle", "Light %d already correct state, ignoring request", light_num);
+            ESP_LOGW("toggle", "Light %d already correct state, skipping", light_num);
             return;
           }
-          
+
           // Mark as busy
           *busy_flags[light_num] = true;
+          ESP_LOGI("toggle", "Starting toggle for light %d to %s", light_num, light_wanted_state ? "ON" : "OFF");
           id(pulse_relay_with_retry).execute(light_num, light_wanted_state, 1);
 
   - id: pulse_relay_with_retry
@@ -78,9 +168,9 @@ script:
             id(relay_5), id(relay_6), id(relay_7), id(relay_8)
           };
           relays[light_num]->turn_on();
-      
-      - delay: 250ms
-      
+
+      - delay: $relay_pulse_duration
+
       - lambda: |-
           esphome::gpio::GPIOSwitch* relays[] = {
             nullptr,
@@ -89,8 +179,7 @@ script:
           };
           relays[light_num]->turn_off();
 
-      - delay: 600ms
-      - delay: 600ms
+      - delay: $state_check_delay
       
       - lambda: |-
           esphome::template_::TemplateSwitch* lights[] = {
@@ -182,13 +271,11 @@ switch:
     restore_mode: DISABLED
     turn_on_action:
       - script.execute:
-          id: toggle_light
-          light_num: 1
+          id: toggle_light_1
           light_wanted_state: true
     turn_off_action:
       - script.execute:
-          id: toggle_light
-          light_num: 1
+          id: toggle_light_1
           light_wanted_state: false
 
   - platform: template
@@ -198,13 +285,11 @@ switch:
     restore_mode: DISABLED
     turn_on_action:
       - script.execute:
-          id: toggle_light
-          light_num: 2
+          id: toggle_light_2
           light_wanted_state: true
     turn_off_action:
       - script.execute:
-          id: toggle_light
-          light_num: 2
+          id: toggle_light_2
           light_wanted_state: false
 
   - platform: template
@@ -214,13 +299,11 @@ switch:
     restore_mode: DISABLED
     turn_on_action:
       - script.execute:
-          id: toggle_light
-          light_num: 3
+          id: toggle_light_3
           light_wanted_state: true
     turn_off_action:
       - script.execute:
-          id: toggle_light
-          light_num: 3
+          id: toggle_light_3
           light_wanted_state: false
 
   - platform: template
@@ -230,13 +313,11 @@ switch:
     restore_mode: DISABLED
     turn_on_action:
       - script.execute:
-          id: toggle_light
-          light_num: 4
+          id: toggle_light_4
           light_wanted_state: true
     turn_off_action:
       - script.execute:
-          id: toggle_light
-          light_num: 4
+          id: toggle_light_4
           light_wanted_state: false
 
   - platform: template
@@ -246,13 +327,11 @@ switch:
     restore_mode: DISABLED
     turn_on_action:
       - script.execute:
-          id: toggle_light
-          light_num: 5
+          id: toggle_light_5
           light_wanted_state: true
     turn_off_action:
       - script.execute:
-          id: toggle_light
-          light_num: 5
+          id: toggle_light_5
           light_wanted_state: false
 
   - platform: template
@@ -262,13 +341,11 @@ switch:
     restore_mode: DISABLED
     turn_on_action:
       - script.execute:
-          id: toggle_light
-          light_num: 6
+          id: toggle_light_6
           light_wanted_state: true
     turn_off_action:
       - script.execute:
-          id: toggle_light
-          light_num: 6
+          id: toggle_light_6
           light_wanted_state: false
 
   - platform: template
@@ -278,13 +355,11 @@ switch:
     restore_mode: DISABLED
     turn_on_action:
       - script.execute:
-          id: toggle_light
-          light_num: 7
+          id: toggle_light_7
           light_wanted_state: true
     turn_off_action:
       - script.execute:
-          id: toggle_light
-          light_num: 7
+          id: toggle_light_7
           light_wanted_state: false
 
   - platform: template
@@ -294,18 +369,16 @@ switch:
     restore_mode: DISABLED
     turn_on_action:
       - script.execute:
-          id: toggle_light
-          light_num: 8
+          id: toggle_light_8
           light_wanted_state: true
     turn_off_action:
       - script.execute:
-          id: toggle_light
-          light_num: 8
+          id: toggle_light_8
           light_wanted_state: false
 
 binary_sensor:
   - platform: gpio
-    pin: 
+    pin:
       number: 14
       mode:
         input: true
@@ -315,11 +388,11 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
-      - delayed_off: 400ms
+      - delayed_on: $input_debounce_delay
+      - delayed_off: $input_debounce_delay
 
   - platform: gpio
-    pin: 
+    pin:
       number: 16
       mode:
         input: true
@@ -329,11 +402,11 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
-      - delayed_off: 400ms
-  
+      - delayed_on: $input_debounce_delay
+      - delayed_off: $input_debounce_delay
+
   - platform: gpio
-    pin: 
+    pin:
       number: 17
       mode:
         input: true
@@ -343,11 +416,11 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
-      - delayed_off: 400ms
+      - delayed_on: $input_debounce_delay
+      - delayed_off: $input_debounce_delay
 
   - platform: gpio
-    pin: 
+    pin:
       number: 18
       mode:
         input: true
@@ -357,11 +430,11 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
-      - delayed_off: 400ms
+      - delayed_on: $input_debounce_delay
+      - delayed_off: $input_debounce_delay
 
   - platform: gpio
-    pin: 
+    pin:
       number: 19
       mode:
         input: true
@@ -371,11 +444,11 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
-      - delayed_off: 400ms
+      - delayed_on: $input_debounce_delay
+      - delayed_off: $input_debounce_delay
 
   - platform: gpio
-    pin: 
+    pin:
       number: 21
       mode:
         input: true
@@ -385,11 +458,11 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
-      - delayed_off: 400ms
+      - delayed_on: $input_debounce_delay
+      - delayed_off: $input_debounce_delay
 
   - platform: gpio
-    pin: 
+    pin:
       number: 22
       mode:
         input: true
@@ -399,11 +472,11 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
-      - delayed_off: 400ms
+      - delayed_on: $input_debounce_delay
+      - delayed_off: $input_debounce_delay
 
   - platform: gpio
-    pin: 
+    pin:
       number: 23
       mode:
         input: true
@@ -413,5 +486,5 @@ binary_sensor:
     internal: $hide_inputs
     device_class: power
     filters:
-      - delayed_on: 400ms
-      - delayed_off: 400ms
+      - delayed_on: $input_debounce_delay
+      - delayed_off: $input_debounce_delay
