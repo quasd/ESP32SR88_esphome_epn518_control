@@ -1,7 +1,7 @@
 substitutions:
   input_debounce_delay: "200ms"  # Debounce filter for binary sensor inputs
   relay_pulse_duration: "75ms"   # Pulse duration for latching relay
-  state_check_delay: "300ms"     # Delay before checking if toggle succeeded
+  state_check_delay: "500ms"     # Delay before checking if toggle succeeded
 
 globals:
   - id: light_1_busy
