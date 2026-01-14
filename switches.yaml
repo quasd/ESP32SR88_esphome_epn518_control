@@ -10,29 +10,30 @@ script:
     parameters:
       light_wanted_state: bool
     then:
-      - lambda: |-
-          if (light_wanted_state == id(light_1).state) {
-            ESP_LOGW("toggle", "Light 1 already in correct state, skipping");
-            return;
-          }
-          ESP_LOGI("toggle", "Starting toggle for light 1 to %s", light_wanted_state ? "ON" : "OFF");
-      
-      - repeat:
-          count: 3
+      - if:
+          condition:
+            lambda: 'return light_wanted_state != id(light_1).state;'
           then:
-            - lambda: 'id(relay_1)->turn_on();'
-            - delay: $relay_pulse_duration
-            - lambda: 'id(relay_1)->turn_off();'
-            - delay: $state_check_delay
+            - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 1 to %s", light_wanted_state ? "ON" : "OFF");'
             
-            - if:
-                condition:
-                  lambda: 'return id(light_1).state == light_wanted_state;'
+            - repeat:
+                count: 3
                 then:
-                  - lambda: 'ESP_LOGI("toggle", "Light 1 successfully toggled");'
-                  - script.stop: toggle_light_1
-                else:
-                  - lambda: 'ESP_LOGW("toggle", "Light 1 retry needed");'
+                  - lambda: 'id(relay_1)->turn_on();'
+                  - delay: $relay_pulse_duration
+                  - lambda: 'id(relay_1)->turn_off();'
+                  - delay: $state_check_delay
+                  
+                  - if:
+                      condition:
+                        lambda: 'return id(light_1).state == light_wanted_state;'
+                      then:
+                        - lambda: 'ESP_LOGI("toggle", "Light 1 successfully toggled");'
+                        - script.stop: toggle_light_1
+                      else:
+                        - lambda: 'ESP_LOGW("toggle", "Light 1 retry needed");'
+          else:
+            - lambda: 'ESP_LOGW("toggle", "Light 1 already in correct state, skipping");'
 
   - id: toggle_light_2
     mode: queued
@@ -40,29 +41,30 @@ script:
     parameters:
       light_wanted_state: bool
     then:
-      - lambda: |-
-          if (light_wanted_state == id(light_2).state) {
-            ESP_LOGW("toggle", "Light 2 already in correct state, skipping");
-            return;
-          }
-          ESP_LOGI("toggle", "Starting toggle for light 2 to %s", light_wanted_state ? "ON" : "OFF");
-      
-      - repeat:
-          count: 3
+      - if:
+          condition:
+            lambda: 'return light_wanted_state != id(light_2).state;'
           then:
-            - lambda: 'id(relay_2)->turn_on();'
-            - delay: $relay_pulse_duration
-            - lambda: 'id(relay_2)->turn_off();'
-            - delay: $state_check_delay
+            - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 2 to %s", light_wanted_state ? "ON" : "OFF");'
             
-            - if:
-                condition:
-                  lambda: 'return id(light_2).state == light_wanted_state;'
+            - repeat:
+                count: 3
                 then:
-                  - lambda: 'ESP_LOGI("toggle", "Light 2 successfully toggled");'
-                  - script.stop: toggle_light_2
-                else:
-                  - lambda: 'ESP_LOGW("toggle", "Light 2 retry needed");'
+                  - lambda: 'id(relay_2)->turn_on();'
+                  - delay: $relay_pulse_duration
+                  - lambda: 'id(relay_2)->turn_off();'
+                  - delay: $state_check_delay
+                  
+                  - if:
+                      condition:
+                        lambda: 'return id(light_2).state == light_wanted_state;'
+                      then:
+                        - lambda: 'ESP_LOGI("toggle", "Light 2 successfully toggled");'
+                        - script.stop: toggle_light_2
+                      else:
+                        - lambda: 'ESP_LOGW("toggle", "Light 2 retry needed");'
+          else:
+            - lambda: 'ESP_LOGW("toggle", "Light 2 already in correct state, skipping");'
 
   - id: toggle_light_3
     mode: queued
@@ -70,29 +72,30 @@ script:
     parameters:
       light_wanted_state: bool
     then:
-      - lambda: |-
-          if (light_wanted_state == id(light_3).state) {
-            ESP_LOGW("toggle", "Light 3 already in correct state, skipping");
-            return;
-          }
-          ESP_LOGI("toggle", "Starting toggle for light 3 to %s", light_wanted_state ? "ON" : "OFF");
-      
-      - repeat:
-          count: 3
+      - if:
+          condition:
+            lambda: 'return light_wanted_state != id(light_3).state;'
           then:
-            - lambda: 'id(relay_3)->turn_on();'
-            - delay: $relay_pulse_duration
-            - lambda: 'id(relay_3)->turn_off();'
-            - delay: $state_check_delay
+            - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 3 to %s", light_wanted_state ? "ON" : "OFF");'
             
-            - if:
-                condition:
-                  lambda: 'return id(light_3).state == light_wanted_state;'
+            - repeat:
+                count: 3
                 then:
-                  - lambda: 'ESP_LOGI("toggle", "Light 3 successfully toggled");'
-                  - script.stop: toggle_light_3
-                else:
-                  - lambda: 'ESP_LOGW("toggle", "Light 3 retry needed");'
+                  - lambda: 'id(relay_3)->turn_on();'
+                  - delay: $relay_pulse_duration
+                  - lambda: 'id(relay_3)->turn_off();'
+                  - delay: $state_check_delay
+                  
+                  - if:
+                      condition:
+                        lambda: 'return id(light_3).state == light_wanted_state;'
+                      then:
+                        - lambda: 'ESP_LOGI("toggle", "Light 3 successfully toggled");'
+                        - script.stop: toggle_light_3
+                      else:
+                        - lambda: 'ESP_LOGW("toggle", "Light 3 retry needed");'
+          else:
+            - lambda: 'ESP_LOGW("toggle", "Light 3 already in correct state, skipping");'
 
   - id: toggle_light_4
     mode: queued
@@ -100,29 +103,30 @@ script:
     parameters:
       light_wanted_state: bool
     then:
-      - lambda: |-
-          if (light_wanted_state == id(light_4).state) {
-            ESP_LOGW("toggle", "Light 4 already in correct state, skipping");
-            return;
-          }
-          ESP_LOGI("toggle", "Starting toggle for light 4 to %s", light_wanted_state ? "ON" : "OFF");
-      
-      - repeat:
-          count: 3
+      - if:
+          condition:
+            lambda: 'return light_wanted_state != id(light_4).state;'
           then:
-            - lambda: 'id(relay_4)->turn_on();'
-            - delay: $relay_pulse_duration
-            - lambda: 'id(relay_4)->turn_off();'
-            - delay: $state_check_delay
+            - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 4 to %s", light_wanted_state ? "ON" : "OFF");'
             
-            - if:
-                condition:
-                  lambda: 'return id(light_4).state == light_wanted_state;'
+            - repeat:
+                count: 3
                 then:
-                  - lambda: 'ESP_LOGI("toggle", "Light 4 successfully toggled");'
-                  - script.stop: toggle_light_4
-                else:
-                  - lambda: 'ESP_LOGW("toggle", "Light 4 retry needed");'
+                  - lambda: 'id(relay_4)->turn_on();'
+                  - delay: $relay_pulse_duration
+                  - lambda: 'id(relay_4)->turn_off();'
+                  - delay: $state_check_delay
+                  
+                  - if:
+                      condition:
+                        lambda: 'return id(light_4).state == light_wanted_state;'
+                      then:
+                        - lambda: 'ESP_LOGI("toggle", "Light 4 successfully toggled");'
+                        - script.stop: toggle_light_4
+                      else:
+                        - lambda: 'ESP_LOGW("toggle", "Light 4 retry needed");'
+          else:
+            - lambda: 'ESP_LOGW("toggle", "Light 4 already in correct state, skipping");'
 
   - id: toggle_light_5
     mode: queued
@@ -130,29 +134,30 @@ script:
     parameters:
       light_wanted_state: bool
     then:
-      - lambda: |-
-          if (light_wanted_state == id(light_5).state) {
-            ESP_LOGW("toggle", "Light 5 already in correct state, skipping");
-            return;
-          }
-          ESP_LOGI("toggle", "Starting toggle for light 5 to %s", light_wanted_state ? "ON" : "OFF");
-      
-      - repeat:
-          count: 3
+      - if:
+          condition:
+            lambda: 'return light_wanted_state != id(light_5).state;'
           then:
-            - lambda: 'id(relay_5)->turn_on();'
-            - delay: $relay_pulse_duration
-            - lambda: 'id(relay_5)->turn_off();'
-            - delay: $state_check_delay
+            - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 5 to %s", light_wanted_state ? "ON" : "OFF");'
             
-            - if:
-                condition:
-                  lambda: 'return id(light_5).state == light_wanted_state;'
+            - repeat:
+                count: 3
                 then:
-                  - lambda: 'ESP_LOGI("toggle", "Light 5 successfully toggled");'
-                  - script.stop: toggle_light_5
-                else:
-                  - lambda: 'ESP_LOGW("toggle", "Light 5 retry needed");'
+                  - lambda: 'id(relay_5)->turn_on();'
+                  - delay: $relay_pulse_duration
+                  - lambda: 'id(relay_5)->turn_off();'
+                  - delay: $state_check_delay
+                  
+                  - if:
+                      condition:
+                        lambda: 'return id(light_5).state == light_wanted_state;'
+                      then:
+                        - lambda: 'ESP_LOGI("toggle", "Light 5 successfully toggled");'
+                        - script.stop: toggle_light_5
+                      else:
+                        - lambda: 'ESP_LOGW("toggle", "Light 5 retry needed");'
+          else:
+            - lambda: 'ESP_LOGW("toggle", "Light 5 already in correct state, skipping");'
 
   - id: toggle_light_6
     mode: queued
@@ -160,29 +165,30 @@ script:
     parameters:
       light_wanted_state: bool
     then:
-      - lambda: |-
-          if (light_wanted_state == id(light_6).state) {
-            ESP_LOGW("toggle", "Light 6 already in correct state, skipping");
-            return;
-          }
-          ESP_LOGI("toggle", "Starting toggle for light 6 to %s", light_wanted_state ? "ON" : "OFF");
-      
-      - repeat:
-          count: 3
+      - if:
+          condition:
+            lambda: 'return light_wanted_state != id(light_6).state;'
           then:
-            - lambda: 'id(relay_6)->turn_on();'
-            - delay: $relay_pulse_duration
-            - lambda: 'id(relay_6)->turn_off();'
-            - delay: $state_check_delay
+            - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 6 to %s", light_wanted_state ? "ON" : "OFF");'
             
-            - if:
-                condition:
-                  lambda: 'return id(light_6).state == light_wanted_state;'
+            - repeat:
+                count: 3
                 then:
-                  - lambda: 'ESP_LOGI("toggle", "Light 6 successfully toggled");'
-                  - script.stop: toggle_light_6
-                else:
-                  - lambda: 'ESP_LOGW("toggle", "Light 6 retry needed");'
+                  - lambda: 'id(relay_6)->turn_on();'
+                  - delay: $relay_pulse_duration
+                  - lambda: 'id(relay_6)->turn_off();'
+                  - delay: $state_check_delay
+                  
+                  - if:
+                      condition:
+                        lambda: 'return id(light_6).state == light_wanted_state;'
+                      then:
+                        - lambda: 'ESP_LOGI("toggle", "Light 6 successfully toggled");'
+                        - script.stop: toggle_light_6
+                      else:
+                        - lambda: 'ESP_LOGW("toggle", "Light 6 retry needed");'
+          else:
+            - lambda: 'ESP_LOGW("toggle", "Light 6 already in correct state, skipping");'
 
   - id: toggle_light_7
     mode: queued
@@ -190,29 +196,30 @@ script:
     parameters:
       light_wanted_state: bool
     then:
-      - lambda: |-
-          if (light_wanted_state == id(light_7).state) {
-            ESP_LOGW("toggle", "Light 7 already in correct state, skipping");
-            return;
-          }
-          ESP_LOGI("toggle", "Starting toggle for light 7 to %s", light_wanted_state ? "ON" : "OFF");
-      
-      - repeat:
-          count: 3
+      - if:
+          condition:
+            lambda: 'return light_wanted_state != id(light_7).state;'
           then:
-            - lambda: 'id(relay_7)->turn_on();'
-            - delay: $relay_pulse_duration
-            - lambda: 'id(relay_7)->turn_off();'
-            - delay: $state_check_delay
+            - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 7 to %s", light_wanted_state ? "ON" : "OFF");'
             
-            - if:
-                condition:
-                  lambda: 'return id(light_7).state == light_wanted_state;'
+            - repeat:
+                count: 3
                 then:
-                  - lambda: 'ESP_LOGI("toggle", "Light 7 successfully toggled");'
-                  - script.stop: toggle_light_7
-                else:
-                  - lambda: 'ESP_LOGW("toggle", "Light 7 retry needed");'
+                  - lambda: 'id(relay_7)->turn_on();'
+                  - delay: $relay_pulse_duration
+                  - lambda: 'id(relay_7)->turn_off();'
+                  - delay: $state_check_delay
+                  
+                  - if:
+                      condition:
+                        lambda: 'return id(light_7).state == light_wanted_state;'
+                      then:
+                        - lambda: 'ESP_LOGI("toggle", "Light 7 successfully toggled");'
+                        - script.stop: toggle_light_7
+                      else:
+                        - lambda: 'ESP_LOGW("toggle", "Light 7 retry needed");'
+          else:
+            - lambda: 'ESP_LOGW("toggle", "Light 7 already in correct state, skipping");'
 
   - id: toggle_light_8
     mode: queued
@@ -220,29 +227,30 @@ script:
     parameters:
       light_wanted_state: bool
     then:
-      - lambda: |-
-          if (light_wanted_state == id(light_8).state) {
-            ESP_LOGW("toggle", "Light 8 already in correct state, skipping");
-            return;
-          }
-          ESP_LOGI("toggle", "Starting toggle for light 8 to %s", light_wanted_state ? "ON" : "OFF");
-      
-      - repeat:
-          count: 3
+      - if:
+          condition:
+            lambda: 'return light_wanted_state != id(light_8).state;'
           then:
-            - lambda: 'id(relay_8)->turn_on();'
-            - delay: $relay_pulse_duration
-            - lambda: 'id(relay_8)->turn_off();'
-            - delay: $state_check_delay
+            - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 8 to %s", light_wanted_state ? "ON" : "OFF");'
             
-            - if:
-                condition:
-                  lambda: 'return id(light_8).state == light_wanted_state;'
+            - repeat:
+                count: 3
                 then:
-                  - lambda: 'ESP_LOGI("toggle", "Light 8 successfully toggled");'
-                  - script.stop: toggle_light_8
-                else:
-                  - lambda: 'ESP_LOGW("toggle", "Light 8 retry needed");'
+                  - lambda: 'id(relay_8)->turn_on();'
+                  - delay: $relay_pulse_duration
+                  - lambda: 'id(relay_8)->turn_off();'
+                  - delay: $state_check_delay
+                  
+                  - if:
+                      condition:
+                        lambda: 'return id(light_8).state == light_wanted_state;'
+                      then:
+                        - lambda: 'ESP_LOGI("toggle", "Light 8 successfully toggled");'
+                        - script.stop: toggle_light_8
+                      else:
+                        - lambda: 'ESP_LOGW("toggle", "Light 8 retry needed");'
+          else:
+            - lambda: 'ESP_LOGW("toggle", "Light 8 already in correct state, skipping");'
 
 switch:
   - platform: restart
