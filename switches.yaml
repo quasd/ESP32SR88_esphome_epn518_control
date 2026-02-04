@@ -368,12 +368,12 @@ switch:
     id: light_1
     lambda: return id(input_1).state;
     restore_mode: DISABLED
-    on_turn_on:
+    turn_on_action:
       - lambda: 'ESP_LOGI("light", "Light 1 turn_on action called");'
       - script.execute:
           id: toggle_light_1
           light_wanted_state: true
-    on_turn_off:
+    turn_off_action:
       - lambda: 'ESP_LOGI("light", "Light 1 turn_off action called");'
       - script.execute:
           id: toggle_light_1
@@ -384,12 +384,12 @@ switch:
     id: light_2
     lambda: return id(input_2).state;
     restore_mode: DISABLED
-    on_turn_on:
+    turn_on_action:
       - lambda: 'ESP_LOGI("light", "Light 2 turn_on action called");'
       - script.execute:
           id: toggle_light_2
           light_wanted_state: true
-    on_turn_off:
+    turn_off_action:
       - lambda: 'ESP_LOGI("light", "Light 2 turn_off action called");'
       - script.execute:
           id: toggle_light_2
@@ -400,12 +400,12 @@ switch:
     id: light_3
     lambda: return id(input_3).state;
     restore_mode: DISABLED
-    on_turn_on:
+    turn_on_action:
       - lambda: 'ESP_LOGI("light", "Light 3 turn_on action called");'
       - script.execute:
           id: toggle_light_3
           light_wanted_state: true
-    on_turn_off:
+    turn_off_action:
       - lambda: 'ESP_LOGI("light", "Light 3 turn_off action called");'
       - script.execute:
           id: toggle_light_3
@@ -416,12 +416,12 @@ switch:
     id: light_4
     lambda: return id(input_4).state;
     restore_mode: DISABLED
-    on_turn_on:
+    turn_on_action:
       - lambda: 'ESP_LOGI("light", "Light 4 turn_on action called");'
       - script.execute:
           id: toggle_light_4
           light_wanted_state: true
-    on_turn_off:
+    turn_off_action:
       - lambda: 'ESP_LOGI("light", "Light 4 turn_off action called");'
       - script.execute:
           id: toggle_light_4
@@ -432,12 +432,12 @@ switch:
     id: light_5
     lambda: return id(input_5).state;
     restore_mode: DISABLED
-    on_turn_on:
+    turn_on_action:
       - lambda: 'ESP_LOGI("light", "Light 5 turn_on action called");'
       - script.execute:
           id: toggle_light_5
           light_wanted_state: true
-    on_turn_off:
+    turn_off_action:
       - lambda: 'ESP_LOGI("light", "Light 5 turn_off action called");'
       - script.execute:
           id: toggle_light_5
@@ -448,12 +448,12 @@ switch:
     id: light_6
     lambda: return id(input_6).state;
     restore_mode: DISABLED
-    on_turn_on:
+    turn_on_action:
       - lambda: 'ESP_LOGI("light", "Light 6 turn_on action called");'
       - script.execute:
           id: toggle_light_6
           light_wanted_state: true
-    on_turn_off:
+    turn_off_action:
       - lambda: 'ESP_LOGI("light", "Light 6 turn_off action called");'
       - script.execute:
           id: toggle_light_6
@@ -464,12 +464,12 @@ switch:
     id: light_7
     lambda: return id(input_7).state;
     restore_mode: DISABLED
-    on_turn_on:
+    turn_on_action:
       - lambda: 'ESP_LOGI("light", "Light 7 turn_on action called");'
       - script.execute:
           id: toggle_light_7
           light_wanted_state: true
-    on_turn_off:
+    turn_off_action:
       - lambda: 'ESP_LOGI("light", "Light 7 turn_off action called");'
       - script.execute:
           id: toggle_light_7
@@ -480,12 +480,12 @@ switch:
     id: light_8
     lambda: return id(input_8).state;
     restore_mode: DISABLED
-    on_turn_on:
+    turn_on_action:
       - lambda: 'ESP_LOGI("light", "Light 8 turn_on action called");'
       - script.execute:
           id: toggle_light_8
           light_wanted_state: true
-    on_turn_off:
+    turn_off_action:
       - lambda: 'ESP_LOGI("light", "Light 8 turn_off action called");'
       - script.execute:
           id: toggle_light_8
