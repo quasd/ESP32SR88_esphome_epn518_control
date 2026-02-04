@@ -3,6 +3,72 @@ substitutions:
   relay_pulse_duration: "200ms"   # Pulse duration for latching relay
   state_check_delay: "600ms"     # Delay before checking if toggle succeeded
 
+globals:
+  - id: light_1_toggling
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: light_2_toggling
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: light_3_toggling
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: light_4_toggling
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: light_5_toggling
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: light_6_toggling
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: light_7_toggling
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: light_8_toggling
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: light_1_target_state
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: light_2_target_state
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: light_3_target_state
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: light_4_target_state
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: light_5_target_state
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: light_6_target_state
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: light_7_target_state
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: light_8_target_state
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+
 script:
   - id: toggle_light_1
     mode: queued
@@ -366,130 +432,274 @@ switch:
   - platform: template
     name: "light_1"
     id: light_1
-    lambda: return id(input_1).state;
+    lambda: |-
+      if (id(light_1_toggling)) {
+        return id(light_1_target_state);
+      }
+      return id(input_1).state;
     restore_mode: DISABLED
     turn_on_action:
-      - lambda: 'ESP_LOGI("light", "Light 1 turn_on action called");'
+      - lambda: |-
+          ESP_LOGI("light", "Light 1 turn_on action called");
+          id(light_1_toggling) = true;
+          id(light_1_target_state) = true;
+      - component.update: light_1
       - script.execute:
           id: toggle_light_1
           light_wanted_state: true
+      - script.wait: toggle_light_1
+      - lambda: 'id(light_1_toggling) = false;'
+      - component.update: light_1
     turn_off_action:
-      - lambda: 'ESP_LOGI("light", "Light 1 turn_off action called");'
+      - lambda: |-
+          ESP_LOGI("light", "Light 1 turn_off action called");
+          id(light_1_toggling) = true;
+          id(light_1_target_state) = false;
+      - component.update: light_1
       - script.execute:
           id: toggle_light_1
           light_wanted_state: false
+      - script.wait: toggle_light_1
+      - lambda: 'id(light_1_toggling) = false;'
+      - component.update: light_1
 
   - platform: template
     name: "light_2"
     id: light_2
-    lambda: return id(input_2).state;
+    lambda: |-
+      if (id(light_2_toggling)) {
+        return id(light_2_target_state);
+      }
+      return id(input_2).state;
     restore_mode: DISABLED
     turn_on_action:
-      - lambda: 'ESP_LOGI("light", "Light 2 turn_on action called");'
+      - lambda: |-
+          ESP_LOGI("light", "Light 2 turn_on action called");
+          id(light_2_toggling) = true;
+          id(light_2_target_state) = true;
+      - component.update: light_2
       - script.execute:
           id: toggle_light_2
           light_wanted_state: true
+      - script.wait: toggle_light_2
+      - lambda: 'id(light_2_toggling) = false;'
+      - component.update: light_2
     turn_off_action:
-      - lambda: 'ESP_LOGI("light", "Light 2 turn_off action called");'
+      - lambda: |-
+          ESP_LOGI("light", "Light 2 turn_off action called");
+          id(light_2_toggling) = true;
+          id(light_2_target_state) = false;
+      - component.update: light_2
       - script.execute:
           id: toggle_light_2
           light_wanted_state: false
+      - script.wait: toggle_light_2
+      - lambda: 'id(light_2_toggling) = false;'
+      - component.update: light_2
 
   - platform: template
     name: "light_3"
     id: light_3
-    lambda: return id(input_3).state;
+    lambda: |-
+      if (id(light_3_toggling)) {
+        return id(light_3_target_state);
+      }
+      return id(input_3).state;
     restore_mode: DISABLED
     turn_on_action:
-      - lambda: 'ESP_LOGI("light", "Light 3 turn_on action called");'
+      - lambda: |-
+          ESP_LOGI("light", "Light 3 turn_on action called");
+          id(light_3_toggling) = true;
+          id(light_3_target_state) = true;
+      - component.update: light_3
       - script.execute:
           id: toggle_light_3
           light_wanted_state: true
+      - script.wait: toggle_light_3
+      - lambda: 'id(light_3_toggling) = false;'
+      - component.update: light_3
     turn_off_action:
-      - lambda: 'ESP_LOGI("light", "Light 3 turn_off action called");'
+      - lambda: |-
+          ESP_LOGI("light", "Light 3 turn_off action called");
+          id(light_3_toggling) = true;
+          id(light_3_target_state) = false;
+      - component.update: light_3
       - script.execute:
           id: toggle_light_3
           light_wanted_state: false
+      - script.wait: toggle_light_3
+      - lambda: 'id(light_3_toggling) = false;'
+      - component.update: light_3
 
   - platform: template
     name: "light_4"
     id: light_4
-    lambda: return id(input_4).state;
+    lambda: |-
+      if (id(light_4_toggling)) {
+        return id(light_4_target_state);
+      }
+      return id(input_4).state;
     restore_mode: DISABLED
     turn_on_action:
-      - lambda: 'ESP_LOGI("light", "Light 4 turn_on action called");'
+      - lambda: |-
+          ESP_LOGI("light", "Light 4 turn_on action called");
+          id(light_4_toggling) = true;
+          id(light_4_target_state) = true;
+      - component.update: light_4
       - script.execute:
           id: toggle_light_4
           light_wanted_state: true
+      - script.wait: toggle_light_4
+      - lambda: 'id(light_4_toggling) = false;'
+      - component.update: light_4
     turn_off_action:
-      - lambda: 'ESP_LOGI("light", "Light 4 turn_off action called");'
+      - lambda: |-
+          ESP_LOGI("light", "Light 4 turn_off action called");
+          id(light_4_toggling) = true;
+          id(light_4_target_state) = false;
+      - component.update: light_4
       - script.execute:
           id: toggle_light_4
           light_wanted_state: false
+      - script.wait: toggle_light_4
+      - lambda: 'id(light_4_toggling) = false;'
+      - component.update: light_4
 
   - platform: template
     name: "light_5"
     id: light_5
-    lambda: return id(input_5).state;
+    lambda: |-
+      if (id(light_5_toggling)) {
+        return id(light_5_target_state);
+      }
+      return id(input_5).state;
     restore_mode: DISABLED
     turn_on_action:
-      - lambda: 'ESP_LOGI("light", "Light 5 turn_on action called");'
+      - lambda: |-
+          ESP_LOGI("light", "Light 5 turn_on action called");
+          id(light_5_toggling) = true;
+          id(light_5_target_state) = true;
+      - component.update: light_5
       - script.execute:
           id: toggle_light_5
           light_wanted_state: true
+      - script.wait: toggle_light_5
+      - lambda: 'id(light_5_toggling) = false;'
+      - component.update: light_5
     turn_off_action:
-      - lambda: 'ESP_LOGI("light", "Light 5 turn_off action called");'
+      - lambda: |-
+          ESP_LOGI("light", "Light 5 turn_off action called");
+          id(light_5_toggling) = true;
+          id(light_5_target_state) = false;
+      - component.update: light_5
       - script.execute:
           id: toggle_light_5
           light_wanted_state: false
+      - script.wait: toggle_light_5
+      - lambda: 'id(light_5_toggling) = false;'
+      - component.update: light_5
 
   - platform: template
     name: "light_6"
     id: light_6
-    lambda: return id(input_6).state;
+    lambda: |-
+      if (id(light_6_toggling)) {
+        return id(light_6_target_state);
+      }
+      return id(input_6).state;
     restore_mode: DISABLED
     turn_on_action:
-      - lambda: 'ESP_LOGI("light", "Light 6 turn_on action called");'
+      - lambda: |-
+          ESP_LOGI("light", "Light 6 turn_on action called");
+          id(light_6_toggling) = true;
+          id(light_6_target_state) = true;
+      - component.update: light_6
       - script.execute:
           id: toggle_light_6
           light_wanted_state: true
+      - script.wait: toggle_light_6
+      - lambda: 'id(light_6_toggling) = false;'
+      - component.update: light_6
     turn_off_action:
-      - lambda: 'ESP_LOGI("light", "Light 6 turn_off action called");'
+      - lambda: |-
+          ESP_LOGI("light", "Light 6 turn_off action called");
+          id(light_6_toggling) = true;
+          id(light_6_target_state) = false;
+      - component.update: light_6
       - script.execute:
           id: toggle_light_6
           light_wanted_state: false
+      - script.wait: toggle_light_6
+      - lambda: 'id(light_6_toggling) = false;'
+      - component.update: light_6
 
   - platform: template
     name: "light_7"
     id: light_7
-    lambda: return id(input_7).state;
+    lambda: |-
+      if (id(light_7_toggling)) {
+        return id(light_7_target_state);
+      }
+      return id(input_7).state;
     restore_mode: DISABLED
     turn_on_action:
-      - lambda: 'ESP_LOGI("light", "Light 7 turn_on action called");'
+      - lambda: |-
+          ESP_LOGI("light", "Light 7 turn_on action called");
+          id(light_7_toggling) = true;
+          id(light_7_target_state) = true;
+      - component.update: light_7
       - script.execute:
           id: toggle_light_7
           light_wanted_state: true
+      - script.wait: toggle_light_7
+      - lambda: 'id(light_7_toggling) = false;'
+      - component.update: light_7
     turn_off_action:
-      - lambda: 'ESP_LOGI("light", "Light 7 turn_off action called");'
+      - lambda: |-
+          ESP_LOGI("light", "Light 7 turn_off action called");
+          id(light_7_toggling) = true;
+          id(light_7_target_state) = false;
+      - component.update: light_7
       - script.execute:
           id: toggle_light_7
           light_wanted_state: false
+      - script.wait: toggle_light_7
+      - lambda: 'id(light_7_toggling) = false;'
+      - component.update: light_7
 
   - platform: template
     name: "light_8"
     id: light_8
-    lambda: return id(input_8).state;
+    lambda: |-
+      if (id(light_8_toggling)) {
+        return id(light_8_target_state);
+      }
+      return id(input_8).state;
     restore_mode: DISABLED
     turn_on_action:
-      - lambda: 'ESP_LOGI("light", "Light 8 turn_on action called");'
+      - lambda: |-
+          ESP_LOGI("light", "Light 8 turn_on action called");
+          id(light_8_toggling) = true;
+          id(light_8_target_state) = true;
+      - component.update: light_8
       - script.execute:
           id: toggle_light_8
           light_wanted_state: true
+      - script.wait: toggle_light_8
+      - lambda: 'id(light_8_toggling) = false;'
+      - component.update: light_8
     turn_off_action:
-      - lambda: 'ESP_LOGI("light", "Light 8 turn_off action called");'
+      - lambda: |-
+          ESP_LOGI("light", "Light 8 turn_off action called");
+          id(light_8_toggling) = true;
+          id(light_8_target_state) = false;
+      - component.update: light_8
       - script.execute:
           id: toggle_light_8
           light_wanted_state: false
+      - script.wait: toggle_light_8
+      - lambda: 'id(light_8_toggling) = false;'
+      - component.update: light_8
 
 binary_sensor:
   - platform: gpio
