@@ -12,12 +12,12 @@ script:
     then:
       - if:
           condition:
-            lambda: 'return light_wanted_state != id(light_1).state;'
+            lambda: 'return light_wanted_state != id(input_1).state;'
           then:
             - delay: 50ms  # Let any debounce/state propagation complete
             - if:
                 condition:
-                  lambda: 'return light_wanted_state != id(light_1).state;'  # Check again
+                  lambda: 'return light_wanted_state != id(input_1).state;'  # Check again
                 then:
                   - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 1 to %s", light_wanted_state ? "ON" : "OFF");'
                   
@@ -31,7 +31,7 @@ script:
                         
                         - if:
                             condition:
-                              lambda: 'return id(light_1).state == light_wanted_state;'
+                              lambda: 'return id(input_1).state == light_wanted_state;'
                             then:
                               - lambda: 'ESP_LOGI("toggle", "Light 1 successfully toggled");'
                               - script.stop: toggle_light_1
@@ -50,12 +50,12 @@ script:
     then:
       - if:
           condition:
-            lambda: 'return light_wanted_state != id(light_2).state;'
+            lambda: 'return light_wanted_state != id(input_2).state;'
           then:
             - delay: 50ms  # Let any debounce/state propagation complete
             - if:
                 condition:
-                  lambda: 'return light_wanted_state != id(light_2).state;'  # Check again
+                  lambda: 'return light_wanted_state != id(input_2).state;'  # Check again
                 then:
                   - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 2 to %s", light_wanted_state ? "ON" : "OFF");'
                   
@@ -69,7 +69,7 @@ script:
                         
                         - if:
                             condition:
-                              lambda: 'return id(light_2).state == light_wanted_state;'
+                              lambda: 'return id(input_2).state == light_wanted_state;'
                             then:
                               - lambda: 'ESP_LOGI("toggle", "Light 2 successfully toggled");'
                               - script.stop: toggle_light_2
@@ -88,12 +88,12 @@ script:
     then:
       - if:
           condition:
-            lambda: 'return light_wanted_state != id(light_3).state;'
+            lambda: 'return light_wanted_state != id(input_3).state;'
           then:
             - delay: 50ms  # Let any debounce/state propagation complete
             - if:
                 condition:
-                  lambda: 'return light_wanted_state != id(light_3).state;'  # Check again
+                  lambda: 'return light_wanted_state != id(input_3).state;'  # Check again
                 then:
                   - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 3 to %s", light_wanted_state ? "ON" : "OFF");'
                   
@@ -107,7 +107,7 @@ script:
                         
                         - if:
                             condition:
-                              lambda: 'return id(light_3).state == light_wanted_state;'
+                              lambda: 'return id(input_3).state == light_wanted_state;'
                             then:
                               - lambda: 'ESP_LOGI("toggle", "Light 3 successfully toggled");'
                               - script.stop: toggle_light_3
@@ -126,12 +126,12 @@ script:
     then:
       - if:
           condition:
-            lambda: 'return light_wanted_state != id(light_4).state;'
+            lambda: 'return light_wanted_state != id(input_4).state;'
           then:
             - delay: 50ms  # Let any debounce/state propagation complete
             - if:
                 condition:
-                  lambda: 'return light_wanted_state != id(light_4).state;'  # Check again
+                  lambda: 'return light_wanted_state != id(input_4).state;'  # Check again
                 then:
                   - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 4 to %s", light_wanted_state ? "ON" : "OFF");'
                   
@@ -145,7 +145,7 @@ script:
                         
                         - if:
                             condition:
-                              lambda: 'return id(light_4).state == light_wanted_state;'
+                              lambda: 'return id(input_4).state == light_wanted_state;'
                             then:
                               - lambda: 'ESP_LOGI("toggle", "Light 4 successfully toggled");'
                               - script.stop: toggle_light_4
@@ -164,12 +164,12 @@ script:
     then:
       - if:
           condition:
-            lambda: 'return light_wanted_state != id(light_5).state;'
+            lambda: 'return light_wanted_state != id(input_5).state;'
           then:
             - delay: 50ms  # Let any debounce/state propagation complete
             - if:
                 condition:
-                  lambda: 'return light_wanted_state != id(light_5).state;'  # Check again
+                  lambda: 'return light_wanted_state != id(input_5).state;'  # Check again
                 then:
                   - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 5 to %s", light_wanted_state ? "ON" : "OFF");'
                   
@@ -183,7 +183,7 @@ script:
                         
                         - if:
                             condition:
-                              lambda: 'return id(light_5).state == light_wanted_state;'
+                              lambda: 'return id(input_5).state == light_wanted_state;'
                             then:
                               - lambda: 'ESP_LOGI("toggle", "Light 5 successfully toggled");'
                               - script.stop: toggle_light_5
@@ -202,12 +202,12 @@ script:
     then:
       - if:
           condition:
-            lambda: 'return light_wanted_state != id(light_6).state;'
+            lambda: 'return light_wanted_state != id(input_6).state;'
           then:
             - delay: 50ms  # Let any debounce/state propagation complete
             - if:
                 condition:
-                  lambda: 'return light_wanted_state != id(light_6).state;'  # Check again
+                  lambda: 'return light_wanted_state != id(input_6).state;'  # Check again
                 then:
                   - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 6 to %s", light_wanted_state ? "ON" : "OFF");'
                   
@@ -221,7 +221,7 @@ script:
                         
                         - if:
                             condition:
-                              lambda: 'return id(light_6).state == light_wanted_state;'
+                              lambda: 'return id(input_6).state == light_wanted_state;'
                             then:
                               - lambda: 'ESP_LOGI("toggle", "Light 6 successfully toggled");'
                               - script.stop: toggle_light_6
@@ -240,12 +240,12 @@ script:
     then:
       - if:
           condition:
-            lambda: 'return light_wanted_state != id(light_7).state;'
+            lambda: 'return light_wanted_state != id(input_7).state;'
           then:
             - delay: 50ms  # Let any debounce/state propagation complete
             - if:
                 condition:
-                  lambda: 'return light_wanted_state != id(light_7).state;'  # Check again
+                  lambda: 'return light_wanted_state != id(input_7).state;'  # Check again
                 then:
                   - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 7 to %s", light_wanted_state ? "ON" : "OFF");'
                   
@@ -259,7 +259,7 @@ script:
                         
                         - if:
                             condition:
-                              lambda: 'return id(light_7).state == light_wanted_state;'
+                              lambda: 'return id(input_7).state == light_wanted_state;'
                             then:
                               - lambda: 'ESP_LOGI("toggle", "Light 7 successfully toggled");'
                               - script.stop: toggle_light_7
@@ -278,12 +278,12 @@ script:
     then:
       - if:
           condition:
-            lambda: 'return light_wanted_state != id(light_8).state;'
+            lambda: 'return light_wanted_state != id(input_8).state;'
           then:
             - delay: 50ms  # Let any debounce/state propagation complete
             - if:
                 condition:
-                  lambda: 'return light_wanted_state != id(light_8).state;'  # Check again
+                  lambda: 'return light_wanted_state != id(input_8).state;'  # Check again
                 then:
                   - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 8 to %s", light_wanted_state ? "ON" : "OFF");'
                   
@@ -297,7 +297,7 @@ script:
                         
                         - if:
                             condition:
-                              lambda: 'return id(light_8).state == light_wanted_state;'
+                              lambda: 'return id(input_8).state == light_wanted_state;'
                             then:
                               - lambda: 'ESP_LOGI("toggle", "Light 8 successfully toggled");'
                               - script.stop: toggle_light_8
@@ -368,11 +368,13 @@ switch:
     id: light_1
     lambda: return id(input_1).state;
     restore_mode: DISABLED
-    turn_on_action:
+    on_turn_on:
+      - logger.log: "Light 1 turn_on action called"
       - script.execute:
           id: toggle_light_1
           light_wanted_state: true
-    turn_off_action:
+    on_turn_off:
+      - logger.log: "Light 1 turn_off action called"
       - script.execute:
           id: toggle_light_1
           light_wanted_state: false
@@ -382,11 +384,13 @@ switch:
     id: light_2
     lambda: return id(input_2).state;
     restore_mode: DISABLED
-    turn_on_action:
+    on_turn_on:
+      - logger.log: "Light 2 turn_on action called"
       - script.execute:
           id: toggle_light_2
           light_wanted_state: true
-    turn_off_action:
+    on_turn_off:
+      - logger.log: "Light 2 turn_off action called"
       - script.execute:
           id: toggle_light_2
           light_wanted_state: false
@@ -396,11 +400,13 @@ switch:
     id: light_3
     lambda: return id(input_3).state;
     restore_mode: DISABLED
-    turn_on_action:
+    on_turn_on:
+      - logger.log: "Light 3 turn_on action called"
       - script.execute:
           id: toggle_light_3
           light_wanted_state: true
-    turn_off_action:
+    on_turn_off:
+      - logger.log: "Light 3 turn_off action called"
       - script.execute:
           id: toggle_light_3
           light_wanted_state: false
@@ -410,11 +416,13 @@ switch:
     id: light_4
     lambda: return id(input_4).state;
     restore_mode: DISABLED
-    turn_on_action:
+    on_turn_on:
+      - logger.log: "Light 4 turn_on action called"
       - script.execute:
           id: toggle_light_4
           light_wanted_state: true
-    turn_off_action:
+    on_turn_off:
+      - logger.log: "Light 4 turn_off action called"
       - script.execute:
           id: toggle_light_4
           light_wanted_state: false
@@ -424,11 +432,13 @@ switch:
     id: light_5
     lambda: return id(input_5).state;
     restore_mode: DISABLED
-    turn_on_action:
+    on_turn_on:
+      - logger.log: "Light 5 turn_on action called"
       - script.execute:
           id: toggle_light_5
           light_wanted_state: true
-    turn_off_action:
+    on_turn_off:
+      - logger.log: "Light 5 turn_off action called"
       - script.execute:
           id: toggle_light_5
           light_wanted_state: false
@@ -438,11 +448,13 @@ switch:
     id: light_6
     lambda: return id(input_6).state;
     restore_mode: DISABLED
-    turn_on_action:
+    on_turn_on:
+      - logger.log: "Light 6 turn_on action called"
       - script.execute:
           id: toggle_light_6
           light_wanted_state: true
-    turn_off_action:
+    on_turn_off:
+      - logger.log: "Light 6 turn_off action called"
       - script.execute:
           id: toggle_light_6
           light_wanted_state: false
@@ -452,11 +464,13 @@ switch:
     id: light_7
     lambda: return id(input_7).state;
     restore_mode: DISABLED
-    turn_on_action:
+    on_turn_on:
+      - logger.log: "Light 7 turn_on action called"
       - script.execute:
           id: toggle_light_7
           light_wanted_state: true
-    turn_off_action:
+    on_turn_off:
+      - logger.log: "Light 7 turn_off action called"
       - script.execute:
           id: toggle_light_7
           light_wanted_state: false
@@ -466,11 +480,13 @@ switch:
     id: light_8
     lambda: return id(input_8).state;
     restore_mode: DISABLED
-    turn_on_action:
+    on_turn_on:
+      - logger.log: "Light 8 turn_on action called"
       - script.execute:
           id: toggle_light_8
           light_wanted_state: true
-    turn_off_action:
+    on_turn_off:
+      - logger.log: "Light 8 turn_off action called"
       - script.execute:
           id: toggle_light_8
           light_wanted_state: false
