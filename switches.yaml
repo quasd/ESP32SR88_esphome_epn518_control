@@ -2,6 +2,7 @@ substitutions:
   input_debounce_delay: "200ms"  # Debounce filter for binary sensor inputs
   relay_pulse_duration: "200ms"   # Pulse duration for latching relay
   state_check_delay: "600ms"     # Delay before checking if toggle succeeded
+  on_off_delay: "300ms"
 
 globals:
   - id: light_1_toggling
@@ -731,6 +732,7 @@ binary_sensor:
     filters:
       - delayed_on: $input_debounce_delay
       - delayed_off: $input_debounce_delay
+      - delayed_off_on: $on_off_delay
 
   - platform: gpio
     pin:
@@ -745,6 +747,7 @@ binary_sensor:
     filters:
       - delayed_on: $input_debounce_delay
       - delayed_off: $input_debounce_delay
+      - delayed_off_on: $on_off_delay
 
   - platform: gpio
     pin:
@@ -759,7 +762,7 @@ binary_sensor:
     filters:
       - delayed_on: $input_debounce_delay
       - delayed_off: $input_debounce_delay
-
+      - delayed_off_on: $on_off_delay
   - platform: gpio
     pin:
       number: 18
@@ -773,6 +776,7 @@ binary_sensor:
     filters:
       - delayed_on: $input_debounce_delay
       - delayed_off: $input_debounce_delay
+      - delayed_off_on: $on_off_delay
 
   - platform: gpio
     pin:
@@ -787,6 +791,7 @@ binary_sensor:
     filters:
       - delayed_on: $input_debounce_delay
       - delayed_off: $input_debounce_delay
+      - delayed_off_on: $on_off_delay
 
   - platform: gpio
     pin:
@@ -801,6 +806,7 @@ binary_sensor:
     filters:
       - delayed_on: $input_debounce_delay
       - delayed_off: $input_debounce_delay
+      - delayed_off_on: $on_off_delay
 
   - platform: gpio
     pin:
@@ -815,6 +821,7 @@ binary_sensor:
     filters:
       - delayed_on: $input_debounce_delay
       - delayed_off: $input_debounce_delay
+      - delayed_off_on: $on_off_delay
 
   - platform: gpio
     pin:
@@ -829,3 +836,5 @@ binary_sensor:
     filters:
       - delayed_on: $input_debounce_delay
       - delayed_off: $input_debounce_delay
+      - delayed_off_on: $on_off_delay
+
