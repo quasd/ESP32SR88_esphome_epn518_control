@@ -732,7 +732,7 @@ binary_sensor:
     filters:
       - delayed_on: $input_debounce_delay
       - delayed_off: $input_debounce_delay
-      - delayed_off_on: $on_off_delay
+      - delayed_on_off: $on_off_delay
 
   - platform: gpio
     pin:
@@ -747,7 +747,7 @@ binary_sensor:
     filters:
       - delayed_on: $input_debounce_delay
       - delayed_off: $input_debounce_delay
-      - delayed_off_on: $on_off_delay
+      - delayed_on_off: $on_off_delay
 
   - platform: gpio
     pin:
@@ -762,7 +762,7 @@ binary_sensor:
     filters:
       - delayed_on: $input_debounce_delay
       - delayed_off: $input_debounce_delay
-      - delayed_off_on: $on_off_delay
+      - delayed_on_off: $on_off_delay
   - platform: gpio
     pin:
       number: 18
@@ -776,7 +776,7 @@ binary_sensor:
     filters:
       - delayed_on: $input_debounce_delay
       - delayed_off: $input_debounce_delay
-      - delayed_off_on: $on_off_delay
+      - delayed_on_off: $on_off_delay
 
   - platform: gpio
     pin:
@@ -791,7 +791,7 @@ binary_sensor:
     filters:
       - delayed_on: $input_debounce_delay
       - delayed_off: $input_debounce_delay
-      - delayed_off_on: $on_off_delay
+      - delayed_on_off: $on_off_delay
 
   - platform: gpio
     pin:
@@ -806,7 +806,7 @@ binary_sensor:
     filters:
       - delayed_on: $input_debounce_delay
       - delayed_off: $input_debounce_delay
-      - delayed_off_on: $on_off_delay
+      - delayed_on_off: $on_off_delay
 
   - platform: gpio
     pin:
@@ -821,7 +821,7 @@ binary_sensor:
     filters:
       - delayed_on: $input_debounce_delay
       - delayed_off: $input_debounce_delay
-      - delayed_off_on: $on_off_delay
+      - delayed_on_off: $on_off_delay
 
   - platform: gpio
     pin:
@@ -836,5 +836,5 @@ binary_sensor:
     filters:
       - delayed_on: $input_debounce_delay
       - delayed_off: $input_debounce_delay
-      - delayed_off_on: $on_off_delay
+      - delayed_on_off: $on_off_delay
 
