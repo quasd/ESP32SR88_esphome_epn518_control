@@ -37,6 +37,7 @@ globals:
     type: bool
     restore_value: no
     initial_value: 'false'
+
   - id: light_1_target_state
     type: bool
     restore_value: no
@@ -70,6 +71,39 @@ globals:
     restore_value: no
     initial_value: 'false'
 
+  - id: light_1_pending
+    type: int
+    restore_value: no
+    initial_value: '0'
+  - id: light_2_pending
+    type: int
+    restore_value: no
+    initial_value: '0'
+  - id: light_3_pending
+    type: int
+    restore_value: no
+    initial_value: '0'
+  - id: light_4_pending
+    type: int
+    restore_value: no
+    initial_value: '0'
+  - id: light_5_pending
+    type: int
+    restore_value: no
+    initial_value: '0'
+  - id: light_6_pending
+    type: int
+    restore_value: no
+    initial_value: '0'
+  - id: light_7_pending
+    type: int
+    restore_value: no
+    initial_value: '0'
+  - id: light_8_pending
+    type: int
+    restore_value: no
+    initial_value: '0'
+
 script:
   - id: toggle_light_1
     mode: queued
@@ -77,17 +111,17 @@ script:
     parameters:
       light_wanted_state: bool
     then:
+      - lambda: 'id(light_1_pending)--;'
       - if:
           condition:
             lambda: 'return light_wanted_state != id(input_1).state;'
           then:
-            - delay: 50ms  # Let any debounce/state propagation complete
+            - delay: 50ms
             - if:
                 condition:
-                  lambda: 'return light_wanted_state != id(input_1).state;'  # Check again
+                  lambda: 'return light_wanted_state != id(input_1).state;'
                 then:
                   - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 1 to %s", light_wanted_state ? "ON" : "OFF");'
-                  
                   - repeat:
                       count: 3
                       then:
@@ -95,7 +129,6 @@ script:
                         - delay: $relay_pulse_duration
                         - lambda: 'id(relay_1)->turn_off();'
                         - delay: $state_check_delay
-                        
                         - if:
                             condition:
                               lambda: 'return id(input_1).state == light_wanted_state;'
@@ -108,6 +141,13 @@ script:
                   - lambda: 'ESP_LOGW("toggle", "Light 1 already in correct state after re-check, skipping");'
           else:
             - lambda: 'ESP_LOGW("toggle", "Light 1 already in correct state, skipping");'
+      - if:
+          condition:
+            lambda: 'return id(light_1_pending) == 0;'
+          then:
+            - lambda: |-
+                id(light_1_toggling) = false;
+                id(light_1).publish_state(id(input_1).state);
 
   - id: toggle_light_2
     mode: queued
@@ -115,17 +155,17 @@ script:
     parameters:
       light_wanted_state: bool
     then:
+      - lambda: 'id(light_2_pending)--;'
       - if:
           condition:
             lambda: 'return light_wanted_state != id(input_2).state;'
           then:
-            - delay: 50ms  # Let any debounce/state propagation complete
+            - delay: 50ms
             - if:
                 condition:
-                  lambda: 'return light_wanted_state != id(input_2).state;'  # Check again
+                  lambda: 'return light_wanted_state != id(input_2).state;'
                 then:
                   - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 2 to %s", light_wanted_state ? "ON" : "OFF");'
-                  
                   - repeat:
                       count: 3
                       then:
@@ -133,7 +173,6 @@ script:
                         - delay: $relay_pulse_duration
                         - lambda: 'id(relay_2)->turn_off();'
                         - delay: $state_check_delay
-                        
                         - if:
                             condition:
                               lambda: 'return id(input_2).state == light_wanted_state;'
@@ -146,6 +185,13 @@ script:
                   - lambda: 'ESP_LOGW("toggle", "Light 2 already in correct state after re-check, skipping");'
           else:
             - lambda: 'ESP_LOGW("toggle", "Light 2 already in correct state, skipping");'
+      - if:
+          condition:
+            lambda: 'return id(light_2_pending) == 0;'
+          then:
+            - lambda: |-
+                id(light_2_toggling) = false;
+                id(light_2).publish_state(id(input_2).state);
 
   - id: toggle_light_3
     mode: queued
@@ -153,17 +199,17 @@ script:
     parameters:
       light_wanted_state: bool
     then:
+      - lambda: 'id(light_3_pending)--;'
       - if:
           condition:
             lambda: 'return light_wanted_state != id(input_3).state;'
           then:
-            - delay: 50ms  # Let any debounce/state propagation complete
+            - delay: 50ms
             - if:
                 condition:
-                  lambda: 'return light_wanted_state != id(input_3).state;'  # Check again
+                  lambda: 'return light_wanted_state != id(input_3).state;'
                 then:
                   - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 3 to %s", light_wanted_state ? "ON" : "OFF");'
-                  
                   - repeat:
                       count: 3
                       then:
@@ -171,7 +217,6 @@ script:
                         - delay: $relay_pulse_duration
                         - lambda: 'id(relay_3)->turn_off();'
                         - delay: $state_check_delay
-                        
                         - if:
                             condition:
                               lambda: 'return id(input_3).state == light_wanted_state;'
@@ -184,6 +229,13 @@ script:
                   - lambda: 'ESP_LOGW("toggle", "Light 3 already in correct state after re-check, skipping");'
           else:
             - lambda: 'ESP_LOGW("toggle", "Light 3 already in correct state, skipping");'
+      - if:
+          condition:
+            lambda: 'return id(light_3_pending) == 0;'
+          then:
+            - lambda: |-
+                id(light_3_toggling) = false;
+                id(light_3).publish_state(id(input_3).state);
 
   - id: toggle_light_4
     mode: queued
@@ -191,17 +243,17 @@ script:
     parameters:
       light_wanted_state: bool
     then:
+      - lambda: 'id(light_4_pending)--;'
       - if:
           condition:
             lambda: 'return light_wanted_state != id(input_4).state;'
           then:
-            - delay: 50ms  # Let any debounce/state propagation complete
+            - delay: 50ms
             - if:
                 condition:
-                  lambda: 'return light_wanted_state != id(input_4).state;'  # Check again
+                  lambda: 'return light_wanted_state != id(input_4).state;'
                 then:
                   - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 4 to %s", light_wanted_state ? "ON" : "OFF");'
-                  
                   - repeat:
                       count: 3
                       then:
@@ -209,7 +261,6 @@ script:
                         - delay: $relay_pulse_duration
                         - lambda: 'id(relay_4)->turn_off();'
                         - delay: $state_check_delay
-                        
                         - if:
                             condition:
                               lambda: 'return id(input_4).state == light_wanted_state;'
@@ -222,6 +273,13 @@ script:
                   - lambda: 'ESP_LOGW("toggle", "Light 4 already in correct state after re-check, skipping");'
           else:
             - lambda: 'ESP_LOGW("toggle", "Light 4 already in correct state, skipping");'
+      - if:
+          condition:
+            lambda: 'return id(light_4_pending) == 0;'
+          then:
+            - lambda: |-
+                id(light_4_toggling) = false;
+                id(light_4).publish_state(id(input_4).state);
 
   - id: toggle_light_5
     mode: queued
@@ -229,17 +287,17 @@ script:
     parameters:
       light_wanted_state: bool
     then:
+      - lambda: 'id(light_5_pending)--;'
       - if:
           condition:
             lambda: 'return light_wanted_state != id(input_5).state;'
           then:
-            - delay: 50ms  # Let any debounce/state propagation complete
+            - delay: 50ms
             - if:
                 condition:
-                  lambda: 'return light_wanted_state != id(input_5).state;'  # Check again
+                  lambda: 'return light_wanted_state != id(input_5).state;'
                 then:
                   - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 5 to %s", light_wanted_state ? "ON" : "OFF");'
-                  
                   - repeat:
                       count: 3
                       then:
@@ -247,7 +305,6 @@ script:
                         - delay: $relay_pulse_duration
                         - lambda: 'id(relay_5)->turn_off();'
                         - delay: $state_check_delay
-                        
                         - if:
                             condition:
                               lambda: 'return id(input_5).state == light_wanted_state;'
@@ -260,6 +317,13 @@ script:
                   - lambda: 'ESP_LOGW("toggle", "Light 5 already in correct state after re-check, skipping");'
           else:
             - lambda: 'ESP_LOGW("toggle", "Light 5 already in correct state, skipping");'
+      - if:
+          condition:
+            lambda: 'return id(light_5_pending) == 0;'
+          then:
+            - lambda: |-
+                id(light_5_toggling) = false;
+                id(light_5).publish_state(id(input_5).state);
 
   - id: toggle_light_6
     mode: queued
@@ -267,17 +331,17 @@ script:
     parameters:
       light_wanted_state: bool
     then:
+      - lambda: 'id(light_6_pending)--;'
       - if:
           condition:
             lambda: 'return light_wanted_state != id(input_6).state;'
           then:
-            - delay: 50ms  # Let any debounce/state propagation complete
+            - delay: 50ms
             - if:
                 condition:
-                  lambda: 'return light_wanted_state != id(input_6).state;'  # Check again
+                  lambda: 'return light_wanted_state != id(input_6).state;'
                 then:
                   - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 6 to %s", light_wanted_state ? "ON" : "OFF");'
-                  
                   - repeat:
                       count: 3
                       then:
@@ -285,7 +349,6 @@ script:
                         - delay: $relay_pulse_duration
                         - lambda: 'id(relay_6)->turn_off();'
                         - delay: $state_check_delay
-                        
                         - if:
                             condition:
                               lambda: 'return id(input_6).state == light_wanted_state;'
@@ -298,6 +361,13 @@ script:
                   - lambda: 'ESP_LOGW("toggle", "Light 6 already in correct state after re-check, skipping");'
           else:
             - lambda: 'ESP_LOGW("toggle", "Light 6 already in correct state, skipping");'
+      - if:
+          condition:
+            lambda: 'return id(light_6_pending) == 0;'
+          then:
+            - lambda: |-
+                id(light_6_toggling) = false;
+                id(light_6).publish_state(id(input_6).state);
 
   - id: toggle_light_7
     mode: queued
@@ -305,17 +375,17 @@ script:
     parameters:
       light_wanted_state: bool
     then:
+      - lambda: 'id(light_7_pending)--;'
       - if:
           condition:
             lambda: 'return light_wanted_state != id(input_7).state;'
           then:
-            - delay: 50ms  # Let any debounce/state propagation complete
+            - delay: 50ms
             - if:
                 condition:
-                  lambda: 'return light_wanted_state != id(input_7).state;'  # Check again
+                  lambda: 'return light_wanted_state != id(input_7).state;'
                 then:
                   - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 7 to %s", light_wanted_state ? "ON" : "OFF");'
-                  
                   - repeat:
                       count: 3
                       then:
@@ -323,7 +393,6 @@ script:
                         - delay: $relay_pulse_duration
                         - lambda: 'id(relay_7)->turn_off();'
                         - delay: $state_check_delay
-                        
                         - if:
                             condition:
                               lambda: 'return id(input_7).state == light_wanted_state;'
@@ -336,6 +405,13 @@ script:
                   - lambda: 'ESP_LOGW("toggle", "Light 7 already in correct state after re-check, skipping");'
           else:
             - lambda: 'ESP_LOGW("toggle", "Light 7 already in correct state, skipping");'
+      - if:
+          condition:
+            lambda: 'return id(light_7_pending) == 0;'
+          then:
+            - lambda: |-
+                id(light_7_toggling) = false;
+                id(light_7).publish_state(id(input_7).state);
 
   - id: toggle_light_8
     mode: queued
@@ -343,17 +419,17 @@ script:
     parameters:
       light_wanted_state: bool
     then:
+      - lambda: 'id(light_8_pending)--;'
       - if:
           condition:
             lambda: 'return light_wanted_state != id(input_8).state;'
           then:
-            - delay: 50ms  # Let any debounce/state propagation complete
+            - delay: 50ms
             - if:
                 condition:
-                  lambda: 'return light_wanted_state != id(input_8).state;'  # Check again
+                  lambda: 'return light_wanted_state != id(input_8).state;'
                 then:
                   - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 8 to %s", light_wanted_state ? "ON" : "OFF");'
-                  
                   - repeat:
                       count: 3
                       then:
@@ -361,7 +437,6 @@ script:
                         - delay: $relay_pulse_duration
                         - lambda: 'id(relay_8)->turn_off();'
                         - delay: $state_check_delay
-                        
                         - if:
                             condition:
                               lambda: 'return id(input_8).state == light_wanted_state;'
@@ -374,11 +449,18 @@ script:
                   - lambda: 'ESP_LOGW("toggle", "Light 8 already in correct state after re-check, skipping");'
           else:
             - lambda: 'ESP_LOGW("toggle", "Light 8 already in correct state, skipping");'
+      - if:
+          condition:
+            lambda: 'return id(light_8_pending) == 0;'
+          then:
+            - lambda: |-
+                id(light_8_toggling) = false;
+                id(light_8).publish_state(id(input_8).state);
 
 switch:
   - platform: restart
     name: "Restart device"
-  
+
   ###### RELAYS #########
   - platform: gpio
     name: "Relay_1"
@@ -406,16 +488,16 @@ switch:
     restore_mode: RESTORE_DEFAULT_OFF
   - platform: gpio
     name: "Relay_5"
+    pin: 26
     id: relay_5
     internal: $hide_outputs
     restore_mode: RESTORE_DEFAULT_OFF
-    pin: 26
   - platform: gpio
     name: "Relay_6"
     pin: 25
+    id: relay_6
     internal: $hide_outputs
     restore_mode: RESTORE_DEFAULT_OFF
-    id: relay_6
   - platform: gpio
     name: "Relay_7"
     pin: 33
@@ -444,27 +526,21 @@ switch:
           ESP_LOGI("light", "Light 1 turn_on action called");
           id(light_1_toggling) = true;
           id(light_1_target_state) = true;
+          id(light_1_pending)++;
           id(light_1).publish_state(true);
       - script.execute:
           id: toggle_light_1
           light_wanted_state: true
-      - script.wait: toggle_light_1
-      - lambda: |-
-          id(light_1_toggling) = false;
-          id(light_1).publish_state(id(input_1).state);
     turn_off_action:
       - lambda: |-
           ESP_LOGI("light", "Light 1 turn_off action called");
           id(light_1_toggling) = true;
           id(light_1_target_state) = false;
+          id(light_1_pending)++;
           id(light_1).publish_state(false);
       - script.execute:
           id: toggle_light_1
           light_wanted_state: false
-      - script.wait: toggle_light_1
-      - lambda: |-
-          id(light_1_toggling) = false;
-          id(light_1).publish_state(id(input_1).state);
 
   - platform: template
     name: "light_2"
@@ -480,27 +556,21 @@ switch:
           ESP_LOGI("light", "Light 2 turn_on action called");
           id(light_2_toggling) = true;
           id(light_2_target_state) = true;
+          id(light_2_pending)++;
           id(light_2).publish_state(true);
       - script.execute:
           id: toggle_light_2
           light_wanted_state: true
-      - script.wait: toggle_light_2
-      - lambda: |-
-          id(light_2_toggling) = false;
-          id(light_2).publish_state(id(input_2).state);
     turn_off_action:
       - lambda: |-
           ESP_LOGI("light", "Light 2 turn_off action called");
           id(light_2_toggling) = true;
           id(light_2_target_state) = false;
+          id(light_2_pending)++;
           id(light_2).publish_state(false);
       - script.execute:
           id: toggle_light_2
           light_wanted_state: false
-      - script.wait: toggle_light_2
-      - lambda: |-
-          id(light_2_toggling) = false;
-          id(light_2).publish_state(id(input_2).state);
 
   - platform: template
     name: "light_3"
@@ -516,27 +586,21 @@ switch:
           ESP_LOGI("light", "Light 3 turn_on action called");
           id(light_3_toggling) = true;
           id(light_3_target_state) = true;
+          id(light_3_pending)++;
           id(light_3).publish_state(true);
       - script.execute:
           id: toggle_light_3
           light_wanted_state: true
-      - script.wait: toggle_light_3
-      - lambda: |-
-          id(light_3_toggling) = false;
-          id(light_3).publish_state(id(input_3).state);
     turn_off_action:
       - lambda: |-
           ESP_LOGI("light", "Light 3 turn_off action called");
           id(light_3_toggling) = true;
           id(light_3_target_state) = false;
+          id(light_3_pending)++;
           id(light_3).publish_state(false);
       - script.execute:
           id: toggle_light_3
           light_wanted_state: false
-      - script.wait: toggle_light_3
-      - lambda: |-
-          id(light_3_toggling) = false;
-          id(light_3).publish_state(id(input_3).state);
 
   - platform: template
     name: "light_4"
@@ -552,27 +616,21 @@ switch:
           ESP_LOGI("light", "Light 4 turn_on action called");
           id(light_4_toggling) = true;
           id(light_4_target_state) = true;
+          id(light_4_pending)++;
           id(light_4).publish_state(true);
       - script.execute:
           id: toggle_light_4
           light_wanted_state: true
-      - script.wait: toggle_light_4
-      - lambda: |-
-          id(light_4_toggling) = false;
-          id(light_4).publish_state(id(input_4).state);
     turn_off_action:
       - lambda: |-
           ESP_LOGI("light", "Light 4 turn_off action called");
           id(light_4_toggling) = true;
           id(light_4_target_state) = false;
+          id(light_4_pending)++;
           id(light_4).publish_state(false);
       - script.execute:
           id: toggle_light_4
           light_wanted_state: false
-      - script.wait: toggle_light_4
-      - lambda: |-
-          id(light_4_toggling) = false;
-          id(light_4).publish_state(id(input_4).state);
 
   - platform: template
     name: "light_5"
@@ -588,27 +646,21 @@ switch:
           ESP_LOGI("light", "Light 5 turn_on action called");
           id(light_5_toggling) = true;
           id(light_5_target_state) = true;
+          id(light_5_pending)++;
           id(light_5).publish_state(true);
       - script.execute:
           id: toggle_light_5
           light_wanted_state: true
-      - script.wait: toggle_light_5
-      - lambda: |-
-          id(light_5_toggling) = false;
-          id(light_5).publish_state(id(input_5).state);
     turn_off_action:
       - lambda: |-
           ESP_LOGI("light", "Light 5 turn_off action called");
           id(light_5_toggling) = true;
           id(light_5_target_state) = false;
+          id(light_5_pending)++;
           id(light_5).publish_state(false);
       - script.execute:
           id: toggle_light_5
           light_wanted_state: false
-      - script.wait: toggle_light_5
-      - lambda: |-
-          id(light_5_toggling) = false;
-          id(light_5).publish_state(id(input_5).state);
 
   - platform: template
     name: "light_6"
@@ -624,27 +676,21 @@ switch:
           ESP_LOGI("light", "Light 6 turn_on action called");
           id(light_6_toggling) = true;
           id(light_6_target_state) = true;
+          id(light_6_pending)++;
           id(light_6).publish_state(true);
       - script.execute:
           id: toggle_light_6
           light_wanted_state: true
-      - script.wait: toggle_light_6
-      - lambda: |-
-          id(light_6_toggling) = false;
-          id(light_6).publish_state(id(input_6).state);
     turn_off_action:
       - lambda: |-
           ESP_LOGI("light", "Light 6 turn_off action called");
           id(light_6_toggling) = true;
           id(light_6_target_state) = false;
+          id(light_6_pending)++;
           id(light_6).publish_state(false);
       - script.execute:
           id: toggle_light_6
           light_wanted_state: false
-      - script.wait: toggle_light_6
-      - lambda: |-
-          id(light_6_toggling) = false;
-          id(light_6).publish_state(id(input_6).state);
 
   - platform: template
     name: "light_7"
@@ -660,27 +706,21 @@ switch:
           ESP_LOGI("light", "Light 7 turn_on action called");
           id(light_7_toggling) = true;
           id(light_7_target_state) = true;
+          id(light_7_pending)++;
           id(light_7).publish_state(true);
       - script.execute:
           id: toggle_light_7
           light_wanted_state: true
-      - script.wait: toggle_light_7
-      - lambda: |-
-          id(light_7_toggling) = false;
-          id(light_7).publish_state(id(input_7).state);
     turn_off_action:
       - lambda: |-
           ESP_LOGI("light", "Light 7 turn_off action called");
           id(light_7_toggling) = true;
           id(light_7_target_state) = false;
+          id(light_7_pending)++;
           id(light_7).publish_state(false);
       - script.execute:
           id: toggle_light_7
           light_wanted_state: false
-      - script.wait: toggle_light_7
-      - lambda: |-
-          id(light_7_toggling) = false;
-          id(light_7).publish_state(id(input_7).state);
 
   - platform: template
     name: "light_8"
@@ -696,27 +736,21 @@ switch:
           ESP_LOGI("light", "Light 8 turn_on action called");
           id(light_8_toggling) = true;
           id(light_8_target_state) = true;
+          id(light_8_pending)++;
           id(light_8).publish_state(true);
       - script.execute:
           id: toggle_light_8
           light_wanted_state: true
-      - script.wait: toggle_light_8
-      - lambda: |-
-          id(light_8_toggling) = false;
-          id(light_8).publish_state(id(input_8).state);
     turn_off_action:
       - lambda: |-
           ESP_LOGI("light", "Light 8 turn_off action called");
           id(light_8_toggling) = true;
           id(light_8_target_state) = false;
+          id(light_8_pending)++;
           id(light_8).publish_state(false);
       - script.execute:
           id: toggle_light_8
           light_wanted_state: false
-      - script.wait: toggle_light_8
-      - lambda: |-
-          id(light_8_toggling) = false;
-          id(light_8).publish_state(id(input_8).state);
 
 binary_sensor:
   - platform: gpio
@@ -757,6 +791,7 @@ binary_sensor:
     device_class: power
     filters:
       - delayed_on_off: $on_off_delay
+
   - platform: gpio
     pin:
       number: 18
@@ -821,4 +856,3 @@ binary_sensor:
     device_class: power
     filters:
       - delayed_on_off: $on_off_delay
-
