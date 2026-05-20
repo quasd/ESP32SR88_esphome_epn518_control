@@ -391,7 +391,7 @@ switch:
     pin: 12
     id: relay_2
     internal: $hide_outputs
-    restore_mode: RESTORE_DEFAULT_OFF
+    restore_mode: ALWAYS_OFF
   - platform: gpio
     name: "Relay_3"
     pin: 4
