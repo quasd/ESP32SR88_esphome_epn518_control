@@ -1,0 +1,115 @@
+globals:
+  - id: light_${n}_toggling
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: light_${n}_target_state
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+
+script:
+  - id: toggle_light_${n}
+    mode: queued
+    max_runs: 10
+    parameters:
+      light_wanted_state: bool
+    then:
+      - if:
+          condition:
+            lambda: 'return light_wanted_state != id(input_${n}).state;'
+          then:
+            - delay: 50ms  # Let any debounce/state propagation complete
+            - if:
+                condition:
+                  lambda: 'return light_wanted_state != id(input_${n}).state;'  # Check again
+                then:
+                  - lambda: 'ESP_LOGI("toggle", "Starting toggle for light ${n} to %s", light_wanted_state ? "ON" : "OFF");'
+
+                  - repeat:
+                      count: 3
+                      then:
+                        - while:
+                            condition:
+                              lambda: 'return id(relay_lock);'
+                            then:
+                              - delay: 10ms
+                        - lambda: 'id(relay_lock) = true;'
+                        - lambda: 'id(relay_${n})->turn_on();'
+                        - delay: $relay_pulse_duration
+                        - lambda: 'id(relay_${n})->turn_off();'
+                        - lambda: 'id(relay_lock) = false;'
+                        - delay: $state_check_delay
+
+                        - if:
+                            condition:
+                              lambda: 'return id(input_${n}).state == light_wanted_state;'
+                            then:
+                              - lambda: 'ESP_LOGI("toggle", "Light ${n} successfully toggled");'
+                              - script.stop: toggle_light_${n}
+                            else:
+                              - lambda: 'ESP_LOGW("toggle", "Light ${n} retry needed");'
+                else:
+                  - lambda: 'ESP_LOGW("toggle", "Light ${n} already in correct state after re-check, skipping");'
+          else:
+            - lambda: 'ESP_LOGW("toggle", "Light ${n} already in correct state, skipping");'
+
+switch:
+  - platform: gpio
+    name: "Relay_${n}"
+    pin: ${relay_pin}
+    id: relay_${n}
+    internal: $hide_outputs
+    restore_mode: ${relay_restore_mode}
+
+  - platform: template
+    name: "light_${n}"
+    id: light_${n}
+    lambda: |-
+      if (id(light_${n}_toggling)) {
+        return id(light_${n}_target_state);
+      }
+      return id(input_${n}).state;
+    restore_mode: DISABLED
+    turn_on_action:
+      - lambda: |-
+          ESP_LOGI("light", "Light ${n} turn_on action called");
+          id(light_${n}_toggling) = true;
+          id(light_${n}_target_state) = true;
+          id(light_${n}).publish_state(true);
+      - script.execute:
+          id: toggle_light_${n}
+          light_wanted_state: true
+      - script.wait: toggle_light_${n}
+      - lambda: |-
+          id(light_${n}_toggling) = false;
+          id(light_${n}).publish_state(id(input_${n}).state);
+    turn_off_action:
+      - lambda: |-
+          ESP_LOGI("light", "Light ${n} turn_off action called");
+          id(light_${n}_toggling) = true;
+          id(light_${n}_target_state) = false;
+          id(light_${n}).publish_state(false);
+      - script.execute:
+          id: toggle_light_${n}
+          light_wanted_state: false
+      - script.wait: toggle_light_${n}
+      - lambda: |-
+          id(light_${n}_toggling) = false;
+          id(light_${n}).publish_state(id(input_${n}).state);
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: ${input_pin}
+      mode:
+        input: true
+        pulldown: true
+    id: input_${n}
+    name: "Input_${n}"
+    internal: $hide_inputs
+    device_class: power
+    filters:
+      - delayed_on: $input_debounce_delay
+      - delayed_off: $input_debounce_delay
+      - delayed_on_off: $on_off_delay
