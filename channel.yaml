@@ -31,14 +31,14 @@ script:
                       then:
                         - while:
                             condition:
-                              lambda: 'return id(relay_lock);'
+                              lambda: 'return ${use_relay_lock} && id(relay_lock);'
                             then:
                               - delay: 10ms
-                        - lambda: 'id(relay_lock) = true;'
+                        - lambda: 'if (${use_relay_lock}) { id(relay_lock) = true; }'
                         - lambda: 'id(relay_${n})->turn_on();'
                         - delay: $relay_pulse_duration
                         - lambda: 'id(relay_${n})->turn_off();'
-                        - lambda: 'id(relay_lock) = false;'
+                        - lambda: 'if (${use_relay_lock}) { id(relay_lock) = false; }'
                         - delay: $state_check_delay
 
                         - if:
