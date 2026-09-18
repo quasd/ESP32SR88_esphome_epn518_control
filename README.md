@@ -9,10 +9,12 @@ House comes with epn518, but you want to have smart lights.
 <img src="images/epn518.jpg" alt="drawing" width="100"/>
 
 To control the lights we need solution that can do following:
-  - Detect 24 VAC voltage from epn518 pin 3 (NC pin to light up LED on low voltage switches)
+  - Detect 12 DC voltage from epn518 pin 3 (NC pin to light up LED on low voltage switches)
     - This is to detect the current state of the relay
-  - Send 24 VAC pulse to pin A1
+  - Send 12 DC pulse to pin A1
     - This is to trigger change it the relay state
+
+* If your lights are using 24 V AC, first move to using 12 V DC. AC is not worth the trouble. 
 
 # Solution
 
