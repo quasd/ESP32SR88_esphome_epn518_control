@@ -2,6 +2,7 @@ substitutions:
   relay_pulse_duration: "50ms"   # Pulse duration for latching relay
   state_check_delay: "50ms"     # Delay before checking if toggle succeeded
   on_off_delay: "0ms"
+  use_relay_lock: "false"
 
 globals:
   - id: relay_lock  # Ensures only one relay is energized at a time
