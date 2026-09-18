@@ -1,533 +1,73 @@
 substitutions:
-  input_debounce_delay: "200ms"  # Debounce filter for binary sensor inputs
-  relay_pulse_duration: "75ms"   # Pulse duration for latching relay
-  state_check_delay: "500ms"     # Delay before checking if toggle succeeded
+  relay_pulse_duration: "50ms"   # Pulse duration for latching relay
+  state_check_delay: "50ms"     # Delay before checking if toggle succeeded
+  on_off_delay: "0ms"
+  use_relay_lock: "false"
 
-script:
-  - id: toggle_light_1
-    mode: queued
-    max_runs: 10
-    parameters:
-      light_wanted_state: bool
-    then:
-      - if:
-          condition:
-            lambda: 'return light_wanted_state != id(light_1).state;'
-          then:
-            - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 1 to %s", light_wanted_state ? "ON" : "OFF");'
-            
-            - repeat:
-                count: 3
-                then:
-                  - lambda: 'id(relay_1)->turn_on();'
-                  - delay: $relay_pulse_duration
-                  - lambda: 'id(relay_1)->turn_off();'
-                  - delay: $state_check_delay
-                  
-                  - if:
-                      condition:
-                        lambda: 'return id(light_1).state == light_wanted_state;'
-                      then:
-                        - lambda: 'ESP_LOGI("toggle", "Light 1 successfully toggled");'
-                        - script.stop: toggle_light_1
-                      else:
-                        - lambda: 'ESP_LOGW("toggle", "Light 1 retry needed");'
-          else:
-            - lambda: 'ESP_LOGW("toggle", "Light 1 already in correct state, skipping");'
-
-  - id: toggle_light_2
-    mode: queued
-    max_runs: 10
-    parameters:
-      light_wanted_state: bool
-    then:
-      - if:
-          condition:
-            lambda: 'return light_wanted_state != id(light_2).state;'
-          then:
-            - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 2 to %s", light_wanted_state ? "ON" : "OFF");'
-            
-            - repeat:
-                count: 3
-                then:
-                  - lambda: 'id(relay_2)->turn_on();'
-                  - delay: $relay_pulse_duration
-                  - lambda: 'id(relay_2)->turn_off();'
-                  - delay: $state_check_delay
-                  
-                  - if:
-                      condition:
-                        lambda: 'return id(light_2).state == light_wanted_state;'
-                      then:
-                        - lambda: 'ESP_LOGI("toggle", "Light 2 successfully toggled");'
-                        - script.stop: toggle_light_2
-                      else:
-                        - lambda: 'ESP_LOGW("toggle", "Light 2 retry needed");'
-          else:
-            - lambda: 'ESP_LOGW("toggle", "Light 2 already in correct state, skipping");'
-
-  - id: toggle_light_3
-    mode: queued
-    max_runs: 10
-    parameters:
-      light_wanted_state: bool
-    then:
-      - if:
-          condition:
-            lambda: 'return light_wanted_state != id(light_3).state;'
-          then:
-            - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 3 to %s", light_wanted_state ? "ON" : "OFF");'
-            
-            - repeat:
-                count: 3
-                then:
-                  - lambda: 'id(relay_3)->turn_on();'
-                  - delay: $relay_pulse_duration
-                  - lambda: 'id(relay_3)->turn_off();'
-                  - delay: $state_check_delay
-                  
-                  - if:
-                      condition:
-                        lambda: 'return id(light_3).state == light_wanted_state;'
-                      then:
-                        - lambda: 'ESP_LOGI("toggle", "Light 3 successfully toggled");'
-                        - script.stop: toggle_light_3
-                      else:
-                        - lambda: 'ESP_LOGW("toggle", "Light 3 retry needed");'
-          else:
-            - lambda: 'ESP_LOGW("toggle", "Light 3 already in correct state, skipping");'
-
-  - id: toggle_light_4
-    mode: queued
-    max_runs: 10
-    parameters:
-      light_wanted_state: bool
-    then:
-      - if:
-          condition:
-            lambda: 'return light_wanted_state != id(light_4).state;'
-          then:
-            - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 4 to %s", light_wanted_state ? "ON" : "OFF");'
-            
-            - repeat:
-                count: 3
-                then:
-                  - lambda: 'id(relay_4)->turn_on();'
-                  - delay: $relay_pulse_duration
-                  - lambda: 'id(relay_4)->turn_off();'
-                  - delay: $state_check_delay
-                  
-                  - if:
-                      condition:
-                        lambda: 'return id(light_4).state == light_wanted_state;'
-                      then:
-                        - lambda: 'ESP_LOGI("toggle", "Light 4 successfully toggled");'
-                        - script.stop: toggle_light_4
-                      else:
-                        - lambda: 'ESP_LOGW("toggle", "Light 4 retry needed");'
-          else:
-            - lambda: 'ESP_LOGW("toggle", "Light 4 already in correct state, skipping");'
-
-  - id: toggle_light_5
-    mode: queued
-    max_runs: 10
-    parameters:
-      light_wanted_state: bool
-    then:
-      - if:
-          condition:
-            lambda: 'return light_wanted_state != id(light_5).state;'
-          then:
-            - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 5 to %s", light_wanted_state ? "ON" : "OFF");'
-            
-            - repeat:
-                count: 3
-                then:
-                  - lambda: 'id(relay_5)->turn_on();'
-                  - delay: $relay_pulse_duration
-                  - lambda: 'id(relay_5)->turn_off();'
-                  - delay: $state_check_delay
-                  
-                  - if:
-                      condition:
-                        lambda: 'return id(light_5).state == light_wanted_state;'
-                      then:
-                        - lambda: 'ESP_LOGI("toggle", "Light 5 successfully toggled");'
-                        - script.stop: toggle_light_5
-                      else:
-                        - lambda: 'ESP_LOGW("toggle", "Light 5 retry needed");'
-          else:
-            - lambda: 'ESP_LOGW("toggle", "Light 5 already in correct state, skipping");'
-
-  - id: toggle_light_6
-    mode: queued
-    max_runs: 10
-    parameters:
-      light_wanted_state: bool
-    then:
-      - if:
-          condition:
-            lambda: 'return light_wanted_state != id(light_6).state;'
-          then:
-            - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 6 to %s", light_wanted_state ? "ON" : "OFF");'
-            
-            - repeat:
-                count: 3
-                then:
-                  - lambda: 'id(relay_6)->turn_on();'
-                  - delay: $relay_pulse_duration
-                  - lambda: 'id(relay_6)->turn_off();'
-                  - delay: $state_check_delay
-                  
-                  - if:
-                      condition:
-                        lambda: 'return id(light_6).state == light_wanted_state;'
-                      then:
-                        - lambda: 'ESP_LOGI("toggle", "Light 6 successfully toggled");'
-                        - script.stop: toggle_light_6
-                      else:
-                        - lambda: 'ESP_LOGW("toggle", "Light 6 retry needed");'
-          else:
-            - lambda: 'ESP_LOGW("toggle", "Light 6 already in correct state, skipping");'
-
-  - id: toggle_light_7
-    mode: queued
-    max_runs: 10
-    parameters:
-      light_wanted_state: bool
-    then:
-      - if:
-          condition:
-            lambda: 'return light_wanted_state != id(light_7).state;'
-          then:
-            - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 7 to %s", light_wanted_state ? "ON" : "OFF");'
-            
-            - repeat:
-                count: 3
-                then:
-                  - lambda: 'id(relay_7)->turn_on();'
-                  - delay: $relay_pulse_duration
-                  - lambda: 'id(relay_7)->turn_off();'
-                  - delay: $state_check_delay
-                  
-                  - if:
-                      condition:
-                        lambda: 'return id(light_7).state == light_wanted_state;'
-                      then:
-                        - lambda: 'ESP_LOGI("toggle", "Light 7 successfully toggled");'
-                        - script.stop: toggle_light_7
-                      else:
-                        - lambda: 'ESP_LOGW("toggle", "Light 7 retry needed");'
-          else:
-            - lambda: 'ESP_LOGW("toggle", "Light 7 already in correct state, skipping");'
-
-  - id: toggle_light_8
-    mode: queued
-    max_runs: 10
-    parameters:
-      light_wanted_state: bool
-    then:
-      - if:
-          condition:
-            lambda: 'return light_wanted_state != id(light_8).state;'
-          then:
-            - lambda: 'ESP_LOGI("toggle", "Starting toggle for light 8 to %s", light_wanted_state ? "ON" : "OFF");'
-            
-            - repeat:
-                count: 3
-                then:
-                  - lambda: 'id(relay_8)->turn_on();'
-                  - delay: $relay_pulse_duration
-                  - lambda: 'id(relay_8)->turn_off();'
-                  - delay: $state_check_delay
-                  
-                  - if:
-                      condition:
-                        lambda: 'return id(light_8).state == light_wanted_state;'
-                      then:
-                        - lambda: 'ESP_LOGI("toggle", "Light 8 successfully toggled");'
-                        - script.stop: toggle_light_8
-                      else:
-                        - lambda: 'ESP_LOGW("toggle", "Light 8 retry needed");'
-          else:
-            - lambda: 'ESP_LOGW("toggle", "Light 8 already in correct state, skipping");'
+globals:
+  - id: relay_lock  # Ensures only one relay is energized at a time
+    type: bool
+    restore_value: no
+    initial_value: 'false'
 
 switch:
   - platform: restart
     name: "Restart device"
-  
-  ###### RELAYS #########
-  - platform: gpio
-    name: "Relay_1"
-    pin: 13
-    id: relay_1
-    internal: $hide_outputs
-    restore_mode: RESTORE_DEFAULT_OFF
-  - platform: gpio
-    name: "Relay_2"
-    pin: 12
-    id: relay_2
-    internal: $hide_outputs
-    restore_mode: RESTORE_DEFAULT_OFF
-  - platform: gpio
-    name: "Relay_3"
-    pin: 4
-    id: relay_3
-    internal: $hide_outputs
-    restore_mode: RESTORE_DEFAULT_OFF
-  - platform: gpio
-    name: "Relay_4"
-    pin: 27
-    id: relay_4
-    internal: $hide_outputs
-    restore_mode: RESTORE_DEFAULT_OFF
-  - platform: gpio
-    name: "Relay_5"
-    id: relay_5
-    internal: $hide_outputs
-    restore_mode: RESTORE_DEFAULT_OFF
-    pin: 26
-  - platform: gpio
-    name: "Relay_6"
-    pin: 25
-    internal: $hide_outputs
-    restore_mode: RESTORE_DEFAULT_OFF
-    id: relay_6
-  - platform: gpio
-    name: "Relay_7"
-    pin: 33
-    id: relay_7
-    internal: $hide_outputs
-    restore_mode: RESTORE_DEFAULT_OFF
-  - platform: gpio
-    name: "Relay_8"
-    pin: 32
-    id: relay_8
-    internal: $hide_outputs
-    restore_mode: RESTORE_DEFAULT_OFF
 
-  ###### Virtual switches ########
-  - platform: template
-    name: "light_1"
-    id: light_1
-    lambda: return id(input_1).state;
-    restore_mode: DISABLED
-    turn_on_action:
-      - script.execute:
-          id: toggle_light_1
-          light_wanted_state: true
-    turn_off_action:
-      - script.execute:
-          id: toggle_light_1
-          light_wanted_state: false
-
-  - platform: template
-    name: "light_2"
-    id: light_2
-    lambda: return id(input_2).state;
-    restore_mode: DISABLED
-    turn_on_action:
-      - script.execute:
-          id: toggle_light_2
-          light_wanted_state: true
-    turn_off_action:
-      - script.execute:
-          id: toggle_light_2
-          light_wanted_state: false
-
-  - platform: template
-    name: "light_3"
-    id: light_3
-    lambda: return id(input_3).state;
-    restore_mode: DISABLED
-    turn_on_action:
-      - script.execute:
-          id: toggle_light_3
-          light_wanted_state: true
-    turn_off_action:
-      - script.execute:
-          id: toggle_light_3
-          light_wanted_state: false
-
-  - platform: template
-    name: "light_4"
-    id: light_4
-    lambda: return id(input_4).state;
-    restore_mode: DISABLED
-    turn_on_action:
-      - script.execute:
-          id: toggle_light_4
-          light_wanted_state: true
-    turn_off_action:
-      - script.execute:
-          id: toggle_light_4
-          light_wanted_state: false
-
-  - platform: template
-    name: "light_5"
-    id: light_5
-    lambda: return id(input_5).state;
-    restore_mode: DISABLED
-    turn_on_action:
-      - script.execute:
-          id: toggle_light_5
-          light_wanted_state: true
-    turn_off_action:
-      - script.execute:
-          id: toggle_light_5
-          light_wanted_state: false
-
-  - platform: template
-    name: "light_6"
-    id: light_6
-    lambda: return id(input_6).state;
-    restore_mode: DISABLED
-    turn_on_action:
-      - script.execute:
-          id: toggle_light_6
-          light_wanted_state: true
-    turn_off_action:
-      - script.execute:
-          id: toggle_light_6
-          light_wanted_state: false
-
-  - platform: template
-    name: "light_7"
-    id: light_7
-    lambda: return id(input_7).state;
-    restore_mode: DISABLED
-    turn_on_action:
-      - script.execute:
-          id: toggle_light_7
-          light_wanted_state: true
-    turn_off_action:
-      - script.execute:
-          id: toggle_light_7
-          light_wanted_state: false
-
-  - platform: template
-    name: "light_8"
-    id: light_8
-    lambda: return id(input_8).state;
-    restore_mode: DISABLED
-    turn_on_action:
-      - script.execute:
-          id: toggle_light_8
-          light_wanted_state: true
-    turn_off_action:
-      - script.execute:
-          id: toggle_light_8
-          light_wanted_state: false
-
-binary_sensor:
-  - platform: gpio
-    pin:
-      number: 14
-      mode:
-        input: true
-        pulldown: true
-    id: input_1
-    name: "Input_1"
-    internal: $hide_inputs
-    device_class: power
-    filters:
-      - delayed_on: $input_debounce_delay
-      - delayed_off: $input_debounce_delay
-
-  - platform: gpio
-    pin:
-      number: 16
-      mode:
-        input: true
-        pulldown: true
-    id: input_2
-    name: "Input_2"
-    internal: $hide_inputs
-    device_class: power
-    filters:
-      - delayed_on: $input_debounce_delay
-      - delayed_off: $input_debounce_delay
-
-  - platform: gpio
-    pin:
-      number: 17
-      mode:
-        input: true
-        pulldown: true
-    id: input_3
-    name: "Input_3"
-    internal: $hide_inputs
-    device_class: power
-    filters:
-      - delayed_on: $input_debounce_delay
-      - delayed_off: $input_debounce_delay
-
-  - platform: gpio
-    pin:
-      number: 18
-      mode:
-        input: true
-        pulldown: true
-    id: input_4
-    name: "Input_4"
-    internal: $hide_inputs
-    device_class: power
-    filters:
-      - delayed_on: $input_debounce_delay
-      - delayed_off: $input_debounce_delay
-
-  - platform: gpio
-    pin:
-      number: 19
-      mode:
-        input: true
-        pulldown: true
-    id: input_5
-    name: "Input_5"
-    internal: $hide_inputs
-    device_class: power
-    filters:
-      - delayed_on: $input_debounce_delay
-      - delayed_off: $input_debounce_delay
-
-  - platform: gpio
-    pin:
-      number: 21
-      mode:
-        input: true
-        pulldown: true
-    id: input_6
-    name: "Input_6"
-    internal: $hide_inputs
-    device_class: power
-    filters:
-      - delayed_on: $input_debounce_delay
-      - delayed_off: $input_debounce_delay
-
-  - platform: gpio
-    pin:
-      number: 22
-      mode:
-        input: true
-        pulldown: true
-    id: input_7
-    name: "Input_7"
-    internal: $hide_inputs
-    device_class: power
-    filters:
-      - delayed_on: $input_debounce_delay
-      - delayed_off: $input_debounce_delay
-
-  - platform: gpio
-    pin:
-      number: 23
-      mode:
-        input: true
-        pulldown: true
-    id: input_8
-    name: "Input_8"
-    internal: $hide_inputs
-    device_class: power
-    filters:
-      - delayed_on: $input_debounce_delay
-      - delayed_off: $input_debounce_delay
+packages:
+  light_1: !include
+    file: channel.yaml
+    vars:
+      n: "1"
+      relay_pin: "13"
+      input_pin: "14"
+      relay_restore_mode: "RESTORE_DEFAULT_OFF"
+  light_2: !include
+    file: channel.yaml
+    vars:
+      n: "2"
+      relay_pin: "12"
+      input_pin: "16"
+      relay_restore_mode: "ALWAYS_OFF"
+  light_3: !include
+    file: channel.yaml
+    vars:
+      n: "3"
+      relay_pin: "4"
+      input_pin: "17"
+      relay_restore_mode: "RESTORE_DEFAULT_OFF"
+  light_4: !include
+    file: channel.yaml
+    vars:
+      n: "4"
+      relay_pin: "27"
+      input_pin: "18"
+      relay_restore_mode: "RESTORE_DEFAULT_OFF"
+  light_5: !include
+    file: channel.yaml
+    vars:
+      n: "5"
+      relay_pin: "26"
+      input_pin: "19"
+      relay_restore_mode: "RESTORE_DEFAULT_OFF"
+  light_6: !include
+    file: channel.yaml
+    vars:
+      n: "6"
+      relay_pin: "25"
+      input_pin: "21"
+      relay_restore_mode: "RESTORE_DEFAULT_OFF"
+  light_7: !include
+    file: channel.yaml
+    vars:
+      n: "7"
+      relay_pin: "33"
+      input_pin: "22"
+      relay_restore_mode: "RESTORE_DEFAULT_OFF"
+  light_8: !include
+    file: channel.yaml
+    vars:
+      n: "8"
+      relay_pin: "32"
+      input_pin: "23"
+      relay_restore_mode: "RESTORE_DEFAULT_OFF"
