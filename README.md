@@ -19,8 +19,8 @@ To control the lights we need solution that can do following:
 # Solution
 
 ESP32SR88
-  - provides 8x 30V outputs which work perfectly for sending 24 VAC pulses.
-  - provides 8x optically isolated inputs for detecting 24 VAC
+  - provides 8x 30V outputs which work perfectly for sending 12 DC pulses.
+  - provides 8x optically isolated inputs for detecting 12 DC
 
 # Usage
 
