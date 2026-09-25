@@ -127,3 +127,5 @@ sensor:
     accuracy_decimals: 0
     state_class: total_increasing
     entity_category: diagnostic
+    lambda: 'return id(light_${n}_retry_count);'
+    update_interval: 60s
