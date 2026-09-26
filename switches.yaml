@@ -14,6 +14,8 @@ switch:
   - platform: restart
     name: "Restart device"
 
+# relay_restore_mode: the outputs only ever carry a 50 ms pulse, so they start OFF after
+# every boot. Restoring a saved state could leave one energised if it was saved mid-pulse.
 packages:
   light_1: !include
     file: channel.yaml
@@ -21,7 +23,7 @@ packages:
       n: "1"
       relay_pin: "13"
       input_pin: "14"
-      relay_restore_mode: "RESTORE_DEFAULT_OFF"
+      relay_restore_mode: "ALWAYS_OFF"
   light_2: !include
     file: channel.yaml
     vars:
@@ -35,39 +37,39 @@ packages:
       n: "3"
       relay_pin: "4"
       input_pin: "17"
-      relay_restore_mode: "RESTORE_DEFAULT_OFF"
+      relay_restore_mode: "ALWAYS_OFF"
   light_4: !include
     file: channel.yaml
     vars:
       n: "4"
       relay_pin: "27"
       input_pin: "18"
-      relay_restore_mode: "RESTORE_DEFAULT_OFF"
+      relay_restore_mode: "ALWAYS_OFF"
   light_5: !include
     file: channel.yaml
     vars:
       n: "5"
       relay_pin: "26"
       input_pin: "19"
-      relay_restore_mode: "RESTORE_DEFAULT_OFF"
+      relay_restore_mode: "ALWAYS_OFF"
   light_6: !include
     file: channel.yaml
     vars:
       n: "6"
       relay_pin: "25"
       input_pin: "21"
-      relay_restore_mode: "RESTORE_DEFAULT_OFF"
+      relay_restore_mode: "ALWAYS_OFF"
   light_7: !include
     file: channel.yaml
     vars:
       n: "7"
       relay_pin: "33"
       input_pin: "22"
-      relay_restore_mode: "RESTORE_DEFAULT_OFF"
+      relay_restore_mode: "ALWAYS_OFF"
   light_8: !include
     file: channel.yaml
     vars:
       n: "8"
       relay_pin: "32"
       input_pin: "23"
-      relay_restore_mode: "RESTORE_DEFAULT_OFF"
+      relay_restore_mode: "ALWAYS_OFF"

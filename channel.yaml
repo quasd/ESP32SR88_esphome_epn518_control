@@ -11,6 +11,11 @@ globals:
     type: int
     restore_value: no
     initial_value: '0'
+  # Pulses sent in the toggle currently running.
+  - id: light_${n}_attempts
+    type: int
+    restore_value: no
+    initial_value: '0'
 script:
   - id: toggle_light_${n}
     mode: queued
@@ -27,10 +32,17 @@ script:
                 condition:
                   lambda: 'return light_wanted_state != id(input_${n}).state;'  # Check again
                 then:
-                  - lambda: 'ESP_LOGI("toggle", "Starting toggle for light ${n} to %s", light_wanted_state ? "ON" : "OFF");'
+                  - lambda: |-
+                      ESP_LOGI("toggle", "Starting toggle for light ${n} to %s", light_wanted_state ? "ON" : "OFF");
+                      id(light_${n}_attempts) = 0;
 
-                  - repeat:
-                      count: 3
+                  # Pulse until the input reports the wanted state, at most 3 times.
+                  # This used to be a 3x repeat left early with script.stop, but stopping
+                  # a queued script also empties its queue, so a request queued behind this
+                  # one (turn_off sent right after turn_on) was silently dropped.
+                  - while:
+                      condition:
+                        lambda: 'return id(light_${n}_attempts) < 3 && id(input_${n}).state != light_wanted_state;'
                       then:
                         - while:
                             condition:
@@ -43,19 +55,21 @@ script:
                         - lambda: 'id(relay_${n})->turn_off();'
                         - lambda: 'if (${use_relay_lock}) { id(relay_lock) = false; }'
                         - delay: $state_check_delay
+                        - lambda: |-
+                            id(light_${n}_attempts) += 1;
+                            if (id(input_${n}).state != light_wanted_state) {
+                              id(light_${n}_retry_count) += 1;
+                              id(light_${n}_retry_count_sensor).publish_state(id(light_${n}_retry_count));
+                              ESP_LOGW("toggle", "Light ${n} retry needed (total retries: %d)", id(light_${n}_retry_count));
+                            }
 
-                        - if:
-                            condition:
-                              lambda: 'return id(input_${n}).state == light_wanted_state;'
-                            then:
-                              - lambda: 'ESP_LOGI("toggle", "Light ${n} successfully toggled");'
-                              - script.stop: toggle_light_${n}
-                            else:
-                              - lambda: 'ESP_LOGW("toggle", "Light ${n} retry needed");'
-                              - lambda: |-
-                                  id(light_${n}_retry_count) += 1;
-                                  id(light_${n}_retry_count_sensor).publish_state(id(light_${n}_retry_count));
-                                  ESP_LOGW("toggle", "Light ${n} retry needed (total retries: %d)", id(light_${n}_retry_count));
+                  - if:
+                      condition:
+                        lambda: 'return id(input_${n}).state == light_wanted_state;'
+                      then:
+                        - lambda: 'ESP_LOGI("toggle", "Light ${n} successfully toggled");'
+                      else:
+                        - lambda: 'ESP_LOGE("toggle", "Light ${n} did not reach %s after 3 pulses", light_wanted_state ? "ON" : "OFF");'
                 else:
                   - lambda: 'ESP_LOGW("toggle", "Light ${n} already in correct state after re-check, skipping");'
           else:
